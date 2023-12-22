@@ -1,0 +1,16 @@
+# postgresql config
+spring:
+  datasource:
+    utl: jdbc:postgresql//localhost:5432/task_flow
+    username: postgres
+    password: yassine
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql:  true
+    properties:
+      hibernate:
+        format_sql: true
+      database: postgresql
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      
