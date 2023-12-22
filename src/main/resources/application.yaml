@@ -1,16 +1,16 @@
-# postgresql config
+# Database configuration
 spring:
   datasource:
-    utl: jdbc:postgresql//localhost:5432/task_flow
+    url: jdbc:postgresql://localhost:5432/task_flow
     username: postgres
     password: yassine
+
+  # Hibernate configuration
   jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql:  true
     properties:
       hibernate:
-        format_sql: true
-      database: postgresql
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+      show-sql: true
 
