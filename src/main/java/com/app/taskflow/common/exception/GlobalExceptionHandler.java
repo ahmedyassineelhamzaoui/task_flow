@@ -5,6 +5,7 @@ import com.app.taskflow.common.response.ResponseWithDetails;
 import com.app.taskflow.common.response.ResponseWithoutDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -50,5 +51,26 @@ public class GlobalExceptionHandler {
         error.put("Error",e.getMessage());
         responseWithDetails.setDetails(error);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseWithDetails);
+    }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ResponseWithDetails> handleDataIntegrityViolationException(DataIntegrityViolationException dataIntegrityViolationException) {
+        responseWithDetails.setTimestamp(LocalDateTime.now());
+        responseWithDetails.setMessage("Data integrity violation");
+        responseWithDetails.setStatus("409");
+        Map<String,Object> errors = new HashMap<>();
+        errors.put("duplicate key", dataIntegrityViolationException.getMessage());
+        responseWithDetails.setDetails(errors);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(responseWithDetails);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ResponseWithDetails> handleIllegalArgumentException(IllegalArgumentException illegalArgumentException) {
+        responseWithDetails.setTimestamp(LocalDateTime.now());
+        responseWithDetails.setMessage("Illegal argument");
+        responseWithDetails.setStatus("400");
+        Map<String,Object> errors = new HashMap<>();
+        errors.put("Error", illegalArgumentException.getMessage());
+        responseWithDetails.setDetails(errors);
+        return ResponseEntity.badRequest().body(responseWithDetails);
     }
 }
