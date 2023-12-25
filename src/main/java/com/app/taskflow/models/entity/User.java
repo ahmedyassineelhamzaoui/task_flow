@@ -27,4 +27,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Task> tasks;
+
+    @OneToMany(mappedBy = "user")
+    private List<Jeton> jetons;
 }
