@@ -26,6 +26,8 @@ public class Task {
 
     private String description;
 
+    private  boolean isTaskAlreadyTakeJeton = true;
+
     @Temporal(TemporalType.DATE)
     private Date date;
 
