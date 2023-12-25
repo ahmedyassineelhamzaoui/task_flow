@@ -26,7 +26,7 @@ public class UserDTO {
 
     @NotBlank(message = "Email is mandatory")
     @Size(min= 5,max=20,message="Username mast be between 5 and 20 characters")
-    private String userName;
+    private String username;
 
     @NotBlank(message = "password is required")
     @Size(min=8,max=30,message = "password  must be between 8 and 30 characters")
