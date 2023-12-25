@@ -1,11 +1,11 @@
 package com.app.taskflow.models.entity;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
-
 
 @Entity
 @Setter
@@ -13,18 +13,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class Tag {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     private UUID id;
 
-    private String firstName;
-    private String lastName;
+    private String name;
 
-    @Column(unique = true)
-    private String email;
-
-    @OneToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "tags")
     private List<Task> tasks;
 }
