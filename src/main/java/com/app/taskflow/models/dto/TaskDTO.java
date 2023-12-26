@@ -3,9 +3,7 @@ package com.app.taskflow.models.dto;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Time;
 import java.util.UUID;
@@ -13,6 +11,8 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TaskDTO {
 
     private UUID id;

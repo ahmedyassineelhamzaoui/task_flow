@@ -16,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -49,5 +50,9 @@ public class User implements UserDetails {
 
 
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
 }
