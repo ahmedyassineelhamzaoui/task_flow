@@ -1,0 +1,110 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="ahmed (generated)" id="1703799567892-1">
+        <createTable tableName="jeton">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jeton_pkey"/>
+            </column>
+            <column name="quantity" type="BIGINT"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="user_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-2">
+        <createTable tableName="task">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="task_pkey"/>
+            </column>
+            <column name="date" type="date"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="end_time" type="time(6) WITHOUT TIME ZONE"/>
+            <column name="is_task_already_take_jeton" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="time(6) WITHOUT TIME ZONE"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="user_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-3">
+        <createTable tableName="user_table">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_table_pkey"/>
+            </column>
+            <column name="account_non_expired" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_non_locked" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="credentials_non_expired" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-4">
+        <addUniqueConstraint columnNames="email" constraintName="uk_eamk4l51hm6yqb8xw37i23kb5" tableName="user_table"/>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-5">
+        <createTable tableName="role_table">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="role_table_pkey"/>
+            </column>
+            <column name="authority" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-6">
+        <createTable tableName="tag">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tag_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-7">
+        <createTable tableName="task_tags">
+            <column name="task_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-8">
+        <createTable tableName="user_table_authorities">
+            <column name="user_table_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authorities_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-9">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="task_tags" constraintName="fk5jrufop0gtxfeybb27jkoqn9r" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="task" validate="true"/>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-10">
+        <addForeignKeyConstraint baseColumnNames="authorities_id" baseTableName="user_table_authorities" constraintName="fkahepha1pnb7sxj78bh3ua7bvx" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="role_table" validate="true"/>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-11">
+        <addForeignKeyConstraint baseColumnNames="tag_id" baseTableName="task_tags" constraintName="fkd15mt5ws4x5odinqe02xf8you" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="tag" validate="true"/>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-12">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="jeton" constraintName="fkhkddjs2d6s75mqndv36h2yrto" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user_table" validate="true"/>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-13">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="task" constraintName="fko20jn2hlan7hudd8obx4mc89p" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user_table" validate="true"/>
+    </changeSet>
+    <changeSet author="ahmed (generated)" id="1703799567892-14">
+        <addForeignKeyConstraint baseColumnNames="user_table_id" baseTableName="user_table_authorities" constraintName="fko9bousl3oufnl477rv0bq9idp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user_table" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
