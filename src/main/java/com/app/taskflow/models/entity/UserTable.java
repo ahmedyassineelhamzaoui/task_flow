@@ -2,9 +2,9 @@ package com.app.taskflow.models.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -16,8 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "users")
-public class User implements UserDetails {
+public class UserTable implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -27,7 +26,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(unique = true)
-    private String username;
+    private String email;
 
     private String password;
 
@@ -46,13 +45,13 @@ public class User implements UserDetails {
     private List<Jeton> jetons;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> authorities;
+    private Collection<RoleTable> authorities= new ArrayList<>();
 
 
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return email;
     }
+
 
 }

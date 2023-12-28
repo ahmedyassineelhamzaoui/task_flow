@@ -25,6 +25,6 @@ public class Jeton {
     private Long quantity;
 
     @ManyToOne
-    private User user;
+    private UserTable user;
 
 }

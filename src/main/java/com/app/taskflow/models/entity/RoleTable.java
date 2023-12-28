@@ -3,10 +3,7 @@ package com.app.taskflow.models.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import java.util.UUID;
 
@@ -15,7 +12,8 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role implements GrantedAuthority {
+@Builder
+public class RoleTable implements GrantedAuthority {
     @Id
     @GeneratedValue(generator = "uuid2")
     private UUID id;

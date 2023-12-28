@@ -48,6 +48,6 @@ public class Task {
     private List<Tag> tags;
 
     @ManyToOne
-    private User user;
+    private UserTable user;
 
 }
