@@ -40,6 +40,7 @@ public class GlobalExceptionHandler {
                                                                 (map,fieldError) -> map.put(fieldError.getField(),fieldError.getDefaultMessage()),
                                                                 (map,map2) -> map.putAll(map2)
                                                         );
+        responseWithDetails.setDetails(errors);
         return ResponseEntity.badRequest().body(responseWithDetails);
     }
     @ExceptionHandler(NoSuchElementException.class)
