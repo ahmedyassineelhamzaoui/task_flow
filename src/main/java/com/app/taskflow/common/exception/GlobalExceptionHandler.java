@@ -59,7 +59,8 @@ public class GlobalExceptionHandler {
         responseWithDetails.setMessage("Data integrity violation");
         responseWithDetails.setStatus("409");
         Map<String,Object> errors = new HashMap<>();
-        errors.put("duplicate key", dataIntegrityViolationException.getMessage());
+        String exceptionMessage = dataIntegrityViolationException.getRootCause().getMessage();
+        errors.put("duplicate key", exceptionMessage);
         responseWithDetails.setDetails(errors);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(responseWithDetails);
     }
