@@ -4,6 +4,7 @@ import com.app.taskflow.models.entity.RoleTable;
 import com.app.taskflow.models.entity.UserTable;
 import com.app.taskflow.repositories.RoleRepository;
 import com.app.taskflow.repositories.UserRepository;
+import com.app.taskflow.services.facade.RoleService;
 import com.app.taskflow.services.facade.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
     @Override
     public UserDetailsService userDetailsService() {
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void AddRoleToUser(String email, String roleName) {
         UserTable userTable = findByEmail(email);
-        RoleTable role =  roleRepository.findByAuthority(roleName);
+        RoleTable role =  roleService.findByAuthority(roleName);
         userTable.getAuthorities().add(role);
         userRepository.save(userTable);
     }
@@ -56,8 +57,8 @@ public class UserServiceImpl implements UserService {
     public void AddRolesToUser(String email, List<RoleTable> roles) {
         UserTable userTable = findByEmail(email);
         for (RoleTable role : roles) {
-            RoleTable roleTable = roleRepository.findByAuthority(role.getAuthority());
-            userTable.getAuthorities().add(role);
+            RoleTable roleTable = roleService.findById(role.getId());
+            userTable.getAuthorities().add(roleTable);
         }
         userRepository.save(userTable);
     }
