@@ -8,6 +8,7 @@ import com.app.taskflow.services.facade.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class AuthorizationController {
     private final ResponseWithDetails responseWithDetails;
     private final ResponseWithoutDetails responseWithoutDetails;
     @GetMapping("users/{email}")
+    @PostAuthorize("hasAnyAuthority('USER')")
     public ResponseEntity<ResponseWithDetails> getUserByEmail(@PathVariable String email) {
         Map<String,Object> response = new HashMap<>();
         responseWithDetails.setTimestamp(LocalDateTime.now());
