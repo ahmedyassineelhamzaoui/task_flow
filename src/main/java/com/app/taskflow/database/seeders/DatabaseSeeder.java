@@ -10,10 +10,11 @@ public class DatabaseSeeder {
 
     private final UserSeeder userSeeder;
     private final RoleSeeder roleSeeder;
-
+    private final AddRoleTOUserSeeder addRoleTOUserSeeder;
     @PostConstruct
     public void init() {
         userSeeder.seed();
         roleSeeder.seed();
+        addRoleTOUserSeeder.seed();
     }
 }

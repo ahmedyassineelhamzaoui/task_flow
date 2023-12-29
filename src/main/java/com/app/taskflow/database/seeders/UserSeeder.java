@@ -2,6 +2,7 @@ package com.app.taskflow.database.seeders;
 
 import com.app.taskflow.models.entity.UserTable;
 import com.app.taskflow.repositories.UserRepository;
+import com.app.taskflow.services.facade.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class UserSeeder {
            UserTable.builder().firstName("yassine").lastName("ahmed").email("yassine@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build(),
            UserTable.builder().firstName("mohamed").lastName("saadi").email("mohamed@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build(),
            UserTable.builder().firstName("adil").lastName("hajji").email("adil@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build(),
-           UserTable.builder().firstName("bassem").lastName("amin").email("bbassem@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build()
+           UserTable.builder().firstName("bassem").lastName("amin").email("bassem@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build()
          );
          userRepository.saveAll(users);
      }

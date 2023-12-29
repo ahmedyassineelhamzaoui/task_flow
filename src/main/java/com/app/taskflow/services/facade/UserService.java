@@ -9,4 +9,8 @@ public interface UserService {
     UserDetailsService userDetailsService();
 
     UserTable findByEmail(String email);
+
+    void AddRoleToUser(String email,String roleName);
+
+    Long getCount();
 }
