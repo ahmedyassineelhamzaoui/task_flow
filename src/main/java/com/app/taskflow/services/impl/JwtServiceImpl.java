@@ -43,13 +43,12 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        extraClaims.put("authorities",userDetails.getAuthorities().stream().map(role -> role.getAuthority()).collect(Collectors.toList()));
+        Map<String,Object> authorities= new HashMap<>();
+        authorities.put("authorities",userDetails.getAuthorities().stream().map(role -> role.getAuthority()).collect(Collectors.toList()));
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5))
-/*
-                .setClaims(extraClaims)
-*/
+                .addClaims(authorities)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
