@@ -1,5 +1,7 @@
 package com.app.taskflow.services.impl;
 
+import com.app.taskflow.mapper.UserTableMapper;
+import com.app.taskflow.models.dto.UserTableDTO;
 import com.app.taskflow.models.entity.RoleTable;
 import com.app.taskflow.models.entity.UserTable;
 import com.app.taskflow.repositories.RoleRepository;
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final UserTableMapper userTableMapper;
 
     @Override
     public UserDetailsService userDetailsService() {
@@ -36,14 +39,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserTable findByEmail(String email) {
-        return  userRepository.findByEmail(email).orElseThrow(()-> new NoSuchElementException("User not found"));
+    public UserTableDTO findByEmail(String email) {
+        return  userTableMapper.toDTO(userRepository.findByEmail(email).orElseThrow(()-> new NoSuchElementException("User not found"))) ;
     }
 
     @Override
     public void AddRoleToUser(String email, String roleName) {
-        UserTable userTable = findByEmail(email);
+        UserTableDTO userTableDto = findByEmail(email);
+
         RoleTable role =  roleService.findByAuthority(roleName);
+       UserTable userTable =  userTableMapper.toEntity(userTableDto);
         userTable.getAuthorities().add(role);
         userRepository.save(userTable);
     }
@@ -55,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void AddRolesToUser(String email, List<RoleTable> roles) {
-        UserTable userTable = findByEmail(email);
+        UserTable userTable = userTableMapper.toEntity(findByEmail(email)) ;
         for (RoleTable role : roles) {
             RoleTable roleTable = roleService.findById(role.getId());
             userTable.getAuthorities().add(roleTable);

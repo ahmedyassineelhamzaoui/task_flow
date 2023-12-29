@@ -31,5 +31,5 @@ public class TaskDTO {
 
     private Time endTime;
 
-    private UserDTO userDTO;
+    private UserTableDTO userTableDTO;
 }
