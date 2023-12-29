@@ -28,8 +28,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
                 .authorities(new ArrayList<>()).accountNonExpired(true).accountNonLocked(true).credentialsNonExpired(true).enabled(true).build();
         userRepository.save(user);
-        var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
+        var jwt = jwtService.generateAccessToken(user);
+        return JwtAuthenticationResponse.builder().accessToken(jwt).build();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
-        var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
+        var jwt = jwtService.generateAccessToken(user);
+        return JwtAuthenticationResponse.builder().accessToken(jwt).build();
     }
 }

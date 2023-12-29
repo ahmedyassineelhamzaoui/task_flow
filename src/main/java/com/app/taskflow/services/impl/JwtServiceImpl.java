@@ -27,8 +27,8 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateAccessToken(UserDetails userDetails) {
+        return generateAccessToken(new HashMap<>(), userDetails);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class JwtServiceImpl implements JwtService {
         return claimsResolvers.apply(claims);
     }
 
-    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    private String generateAccessToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         Map<String,Object> authorities= new HashMap<>();
         authorities.put("authorities",userDetails.getAuthorities().stream().map(role -> role.getAuthority()).collect(Collectors.toList()));
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
