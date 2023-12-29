@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtServiceImpl implements JwtService {
@@ -42,9 +43,13 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        extraClaims.put("authorities",userDetails.getAuthorities().stream().map(role -> role.getAuthority()).collect(Collectors.toList()));
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5))
+/*
+                .setClaims(extraClaims)
+*/
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
