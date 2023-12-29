@@ -51,4 +51,14 @@ public class UserServiceImpl implements UserService {
     public Long getCount() {
         return userRepository.count();
     }
+
+    @Override
+    public void AddRolesToUser(String email, List<RoleTable> roles) {
+        UserTable userTable = findByEmail(email);
+        for (RoleTable role : roles) {
+            RoleTable roleTable = roleRepository.findByAuthority(role.getAuthority());
+            userTable.getAuthorities().add(role);
+        }
+        userRepository.save(userTable);
+    }
 }
