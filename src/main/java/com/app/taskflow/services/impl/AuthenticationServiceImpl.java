@@ -28,8 +28,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
                 .authorities(new ArrayList<>()).accountNonExpired(true).accountNonLocked(true).credentialsNonExpired(true).enabled(true).build();
         userRepository.save(user);
-        var jwt = jwtService.generateAccessToken(user);
-        return JwtAuthenticationResponse.builder().accessToken(jwt).build();
+        var jwtAccess = jwtService.generateAccessToken(user);
+        var jwtRefresh = jwtService.generateRefreshToken(user);
+
+        return JwtAuthenticationResponse.builder().accessToken(jwtAccess).refreshToken(jwtRefresh).build();
     }
 
     @Override
@@ -38,7 +40,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
-        var jwt = jwtService.generateAccessToken(user);
-        return JwtAuthenticationResponse.builder().accessToken(jwt).build();
+        var jwtAccess = jwtService.generateAccessToken(user);
+        var jwtRefresh = jwtService.generateRefreshToken(user);
+
+        return JwtAuthenticationResponse.builder().accessToken(jwtAccess).refreshToken(jwtRefresh).build();
     }
 }
