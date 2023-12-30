@@ -53,8 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     filterChain.doFilter(request, response);
                 }
             }catch(Exception e){
-                  response.setHeader("message",e.getMessage());
-                  response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                System.out.println(e.getMessage());
             }
         }
     }

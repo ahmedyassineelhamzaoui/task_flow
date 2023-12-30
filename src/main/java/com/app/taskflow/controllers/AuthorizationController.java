@@ -2,8 +2,10 @@ package com.app.taskflow.controllers;
 
 import com.app.taskflow.common.response.ResponseWithDetails;
 import com.app.taskflow.common.response.ResponseWithoutDetails;
+import com.app.taskflow.models.dto.TaskDTO;
 import com.app.taskflow.models.dto.request.UserRolesRequest;
 import com.app.taskflow.services.facade.AuthenticationService;
+import com.app.taskflow.services.facade.TaskService;
 import com.app.taskflow.services.facade.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import java.util.Map;
 public class AuthorizationController {
 
     private final UserService userService;
+    private final TaskService taskService;
     private final ResponseWithDetails responseWithDetails;
     private final ResponseWithoutDetails responseWithoutDetails;
     @GetMapping("users/{email}")
@@ -40,6 +43,15 @@ public class AuthorizationController {
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
         responseWithoutDetails.setStatus("200");
         responseWithoutDetails.setMessage("Role added to user");
+        return ResponseEntity.ok(responseWithoutDetails);
+    }
+    @PostMapping("task")
+    public ResponseEntity<ResponseWithoutDetails> addTask(@RequestBody @Valid TaskDTO taskDTO){
+        taskService.addTask(taskDTO);
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setStatus("200");
+        responseWithoutDetails.setMessage("task added successfully");
+
         return ResponseEntity.ok(responseWithoutDetails);
     }
 }

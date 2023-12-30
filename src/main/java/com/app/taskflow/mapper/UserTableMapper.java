@@ -9,9 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UserTableMapper {
 
-    @Mapping(source = "email", target = "email")
     UserTableDTO toDTO(UserTable userTable);
 
-    @Mapping(source = "email", target = "email")
     UserTable toEntity(UserTableDTO userTableDTO);
 }
