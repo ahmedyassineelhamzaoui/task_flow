@@ -39,13 +39,8 @@ public class Task {
     private TaskStatus status;
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "task_tags",
-            joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private List<Tag> tags;
+    @OneToMany(mappedBy = "task")
+    private List<TaskTag> taskTags;
 
     @ManyToOne
     private UserTable user;

@@ -21,6 +21,6 @@ public class Tag {
 
     private String name;
 
-    @ManyToMany(mappedBy = "tags")
-    private List<Task> tasks;
+    @OneToMany(mappedBy = "tag")
+    private List<TaskTag> taskTags;
 }
