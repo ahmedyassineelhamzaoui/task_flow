@@ -24,7 +24,7 @@ public class TagController {
     private final TagService tagService;
     private final ResponseWithDetails responseWithDetails;
     private final ResponseWithoutDetails responseWithoutDetails;
-    
+
     @PostMapping("tag")
     public ResponseEntity<ResponseWithDetails> addTag(@RequestBody @Valid TagDTO tagDTO){
         Map<String,Object> response = new HashMap<>();

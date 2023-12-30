@@ -1,6 +1,8 @@
 package com.app.taskflow.services.impl;
 
+import com.app.taskflow.mapper.TagMapper;
 import com.app.taskflow.models.dto.TagDTO;
+import com.app.taskflow.models.entity.Tag;
 import com.app.taskflow.repositories.TagRepository;
 import com.app.taskflow.services.facade.TagService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.UUID;
 public class TagServiceImpl implements TagService {
 
     private final TagRepository tagRepository;
+    private final TagMapper tagMapper;
     @Override
     public Optional<TagDTO> getTagById(UUID tagId) {
         return Optional.empty();
@@ -22,7 +25,9 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public TagDTO addTag(TagDTO tagDTO) {
-        return null;
+        Tag tag = tagMapper.toEntity(tagDTO);
+        TagDTO tagDTOResponse = tagMapper.toDTO(tagRepository.save(tag));
+        return tagDTOResponse;
     }
 
     @Override
