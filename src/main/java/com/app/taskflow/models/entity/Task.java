@@ -31,7 +31,7 @@ public class Task {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
