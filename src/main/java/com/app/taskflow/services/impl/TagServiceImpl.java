@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,8 +20,9 @@ public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
     private final TagMapper tagMapper;
     @Override
-    public Optional<TagDTO> getTagById(UUID tagId) {
-        return Optional.empty();
+    public TagDTO getTagById(UUID tagId) {
+        Tag tag = tagRepository.findById(tagId).orElseThrow(() -> new NoSuchElementException("tag that you want to delete  not exist"));
+        return tagMapper.toDTO(tag) ;
     }
 
     @Override
