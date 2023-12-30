@@ -36,7 +36,7 @@ public class TagController {
 
     @DeleteMapping("/tags/{id}")
     public ResponseEntity<ResponseWithoutDetails> deleteTag(@PathVariable UUID id){
-        
+        tagService.deleteTag(id);
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
         responseWithoutDetails.setStatus("200");
         responseWithoutDetails.setMessage("tag deleted successfully");
