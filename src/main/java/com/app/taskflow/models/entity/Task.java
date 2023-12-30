@@ -22,6 +22,7 @@ public class Task {
     @GeneratedValue(generator = "uuid2")
     private UUID id;
 
+    @Column(unique = true)
     private String title;
 
     private String description;
