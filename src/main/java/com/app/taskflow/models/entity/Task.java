@@ -29,12 +29,11 @@ public class Task {
 
     private  boolean isTaskAlreadyTakeJeton = true;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
-
-    private Time startTime;
-
-    private Time endTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
 
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
