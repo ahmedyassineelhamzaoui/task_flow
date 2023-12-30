@@ -39,7 +39,10 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public void deleteTag(UUID tagId) {
-
+         TagDTO tag = getTagById(tagId);
+         if(tag != null){
+             tagRepository.deleteById(tagId);
+         }
     }
 
     @Override
