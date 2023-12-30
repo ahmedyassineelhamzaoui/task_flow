@@ -8,11 +8,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
+
 public interface TaskMapper {
-
-    @Mapping(source = "user", target = "user")
-    Task toEntity(TaskDTO taskDTO);
-
-    @Mapping(source = "user", target = "user")
     TaskDTO toDTO(Task task);
+
+    Task toEntity(TaskDTO taskDTO);
 }

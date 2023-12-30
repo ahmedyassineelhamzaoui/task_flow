@@ -2,9 +2,11 @@ package com.app.taskflow.controllers;
 
 import com.app.taskflow.common.response.ResponseWithDetails;
 import com.app.taskflow.common.response.ResponseWithoutDetails;
+import com.app.taskflow.models.dto.TagDTO;
 import com.app.taskflow.models.dto.TaskDTO;
 import com.app.taskflow.models.dto.request.UserRolesRequest;
 import com.app.taskflow.services.facade.AuthenticationService;
+import com.app.taskflow.services.facade.TagService;
 import com.app.taskflow.services.facade.TaskService;
 import com.app.taskflow.services.facade.UserService;
 import jakarta.validation.Valid;
@@ -26,6 +28,7 @@ public class AuthorizationController {
     private final TaskService taskService;
     private final ResponseWithDetails responseWithDetails;
     private final ResponseWithoutDetails responseWithoutDetails;
+    private final TagService tagService;
     @GetMapping("users/{email}")
     @PostAuthorize("hasAnyAuthority('USER')")
     public ResponseEntity<ResponseWithDetails> getUserByEmail(@PathVariable String email) {
@@ -54,4 +57,5 @@ public class AuthorizationController {
 
         return ResponseEntity.ok(responseWithoutDetails);
     }
+
 }

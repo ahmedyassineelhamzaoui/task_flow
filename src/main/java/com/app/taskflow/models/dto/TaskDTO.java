@@ -34,7 +34,7 @@ public class TaskDTO {
 
     private Time endTime;
 
-    private UserTableDTO user;
+    private UserTableDTO userDTO;
 
     private List<TagDTO> tags;
 }
