@@ -7,14 +7,12 @@ import com.app.taskflow.services.facade.TagService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +32,15 @@ public class TagController {
         responseWithDetails.setMessage("tag added successfully");
         responseWithDetails.setDetails(response);
         return ResponseEntity.ok(responseWithDetails);
+    }
+
+    @DeleteMapping("/tags/{id}")
+    public ResponseEntity<ResponseWithoutDetails> deleteTag(@PathVariable UUID id){
+        
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setStatus("200");
+        responseWithoutDetails.setMessage("tag deleted successfully");
+        return ResponseEntity.ok(responseWithoutDetails);
     }
 
 }
