@@ -19,6 +19,7 @@ public class Tag {
     @GeneratedValue(generator = "uuid2")
     private UUID id;
 
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "tag")
