@@ -10,7 +10,7 @@ import java.util.UUID;
 public  interface TagService {
 
     Optional<TagDTO> getTagById(UUID tagId);
-    
+
     TagDTO addTag(TagDTO tagDTO);
 
     List<TagDTO> getAllTags();
