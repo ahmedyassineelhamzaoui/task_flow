@@ -27,18 +27,16 @@ public class TaskDTO {
 
     private String status;
 
-    @NotNull(message = "Date is mandatory")
-    @Future(message = "Date must be in the future")
-    private Date date;
+    @NotNull(message = "End Date cannot be null")
+    @Future(message = "Start Date must be in the future")
+    private Date startDate;
 
-    @NotNull(message = "Start time cannot be null")
-    private Time startTime;
-
-    @NotNull(message = "End time cannot be null")
-    private Time endTime;
+    @NotNull(message = "Start Date cannot be null")
+    @Future(message = "End Date must be in the future")
+    private Date endDate;
 
     @NotNull(message = "user is required")
-    private UserTableDTO userDTO;
+    private UserTableDTO user;
 
     @NotEmpty(message = "tags is required")
     private List<TagDTO> tags;
