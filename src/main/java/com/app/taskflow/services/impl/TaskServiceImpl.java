@@ -31,6 +31,10 @@ public class TaskServiceImpl implements TaskService {
         try {
             dateFormat.parse(formatDateToString(taskDTO.getStartDate()));
             dateFormat.parse(formatDateToString(taskDTO.getEndDate()));
+            long daysBetween = ChronoUnit.MINUTES.between(taskDTO.getStartDate().toInstant(), taskDTO.getEndDate().toInstant());
+            if (daysBetween > 4320) {
+                throw new IllegalArgumentException("The difference between the start date and end date should be less than or equal to 3 days");
+            }
         } catch (ParseException e) {
             throw new IllegalArgumentException("Invalid timestamp format. Please use 'yyyy-MM-dd'T'HH:mm:ss' format");
         }
