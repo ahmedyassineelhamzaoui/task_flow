@@ -5,7 +5,10 @@ import com.app.taskflow.common.exception.custom.TaskTimeException;
 import com.app.taskflow.mapper.TaskMapper;
 import com.app.taskflow.models.dto.TagDTO;
 import com.app.taskflow.models.dto.TaskDTO;
+import com.app.taskflow.models.entity.Task;
+import com.app.taskflow.models.entity.TaskHasTags;
 import com.app.taskflow.repositories.TagRepository;
+import com.app.taskflow.repositories.TaskHasTagRepository;
 import com.app.taskflow.repositories.TaskRepository;
 import com.app.taskflow.repositories.UserRepository;
 import com.app.taskflow.services.facade.TaskService;
@@ -30,6 +33,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskMapper taskMapper;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
+    private final TaskHasTagRepository taskHasTagRepository;
 
     @Override
     public void addTask(TaskDTO taskDTO) {
@@ -61,8 +65,9 @@ public class TaskServiceImpl implements TaskService {
         if(taskDTO.getTags().size() <2){
             throw new TaskTagsSizeException("Tags size must be greater than 1");
         }
-        taskRepository.save(taskMapper.toEntity(taskDTO));
-
+        Task task =  taskRepository.save(taskMapper.toEntity(taskDTO));
+        List<TaskHasTags> taskHasTagsList = toTaskHasTagsList(taskDTO.getTags(), task);
+        taskHasTagRepository.saveAll(taskHasTagsList);
     }
     public boolean isUserExist(UUID id){
         return userRepository.existsById(id);
@@ -73,5 +78,14 @@ public class TaskServiceImpl implements TaskService {
     }
     public boolean isTagExist(UUID id){
         return tagRepository.existsById(id);
+    }
+
+    public List<TaskHasTags> toTaskHasTagsList(List<TagDTO> tagDTOs, Task task) {
+        return tagDTOs.stream().map(tagDTO -> {
+            TaskHasTags taskHasTags = new TaskHasTags();
+            taskHasTags.setTask(task);
+            taskHasTags.setTag(tagRepository.findById(tagDTO.getId()).orElseThrow(() -> new NoSuchElementException("Tag not found with ID: " + tagDTO.getId())));
+            return taskHasTags;
+        }).collect(Collectors.toList());
     }
 }
