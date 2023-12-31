@@ -27,6 +27,9 @@ public class TaskServiceImpl implements TaskService {
         if(!isUserExist(taskDTO.getUser().getId())){
             throw new NoSuchElementException("User not found");
         }
+        if(taskDTO.getStartDate().after(taskDTO.getEndDate())){
+            throw new TaskTimeException("Start date must be before end date");
+        }
         if(taskDTO.getTags().size() <2){
             throw new TaskTagsSizeException("Tags size must be greater than 1");
         }

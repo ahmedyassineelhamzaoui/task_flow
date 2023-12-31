@@ -25,7 +25,7 @@ public class TaskDTO {
     @NotBlank(message = "Description is mandatory")
     private String description;
 
-    private String status;
+    private String status = "TODO";
 
     @NotNull(message = "End Date cannot be null")
     @Future(message = "Start Date must be in the future")

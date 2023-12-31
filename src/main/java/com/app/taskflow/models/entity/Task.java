@@ -36,7 +36,7 @@ public class Task {
     private Date endDate;
 
     @Enumerated(EnumType.STRING)
-    private TaskStatus status = TaskStatus.TODO;
+    private TaskStatus status ;
 
 
     @OneToMany(mappedBy = "task")
