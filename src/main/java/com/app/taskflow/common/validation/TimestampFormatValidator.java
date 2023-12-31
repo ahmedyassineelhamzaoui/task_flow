@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class TimestampFormatValidator implements ConstraintValidator<TimesTamp, Date> {
 
-    private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Override
     public boolean isValid(Date value, ConstraintValidatorContext context) {
@@ -19,11 +19,16 @@ public class TimestampFormatValidator implements ConstraintValidator<TimesTamp, 
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat(TIMESTAMP_PATTERN);
         dateFormat.setLenient(false);
+        String dateString = dateFormat.format(value);
         try {
-            dateFormat.parse(value.toString());
+            Date parsedDate = dateFormat.parse(dateString);
+            String parsedDateString = dateFormat.format(parsedDate);
+            if (!dateString.equals(parsedDateString)) {
+                throw new IllegalArgumentException("Invalid timestamp format. Please use 'yyyy-MM-dd'T'HH:mm:ss' format");
+            }
             return true;
         } catch (ParseException e) {
-            return false;
+            throw new IllegalArgumentException("Invalid timestamp format. Please use 'yyyy-MM-dd'T'HH:mm:ss' format");
         }
     }
 }

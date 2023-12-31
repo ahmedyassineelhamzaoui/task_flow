@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -86,6 +87,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseWithoutDetails> handleTaskTimeException(TaskTimeException taskTimeException){
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
         responseWithoutDetails.setMessage(taskTimeException.getMessage());
+        responseWithoutDetails.setStatus("400");
+        return ResponseEntity.badRequest().body(responseWithoutDetails);
+    }
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ResponseWithoutDetails> handleHttpMessageNotReadableException(HttpMessageNotReadableException httpMessageNotReadableException){
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setMessage(httpMessageNotReadableException.getMessage());
         responseWithoutDetails.setStatus("400");
         return ResponseEntity.badRequest().body(responseWithoutDetails);
     }
