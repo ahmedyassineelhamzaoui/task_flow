@@ -2,6 +2,7 @@ package com.app.taskflow.common.exception;
 
 
 import com.app.taskflow.common.exception.custom.TaskTagsSizeException;
+import com.app.taskflow.common.exception.custom.TaskTimeException;
 import com.app.taskflow.common.response.ResponseWithDetails;
 import com.app.taskflow.common.response.ResponseWithoutDetails;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +79,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseWithoutDetails> handleTaskTagsSizeException(TaskTagsSizeException taskTagsSizeException){
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
         responseWithoutDetails.setMessage(taskTagsSizeException.getMessage());
+        responseWithoutDetails.setStatus("400");
+        return ResponseEntity.badRequest().body(responseWithoutDetails);
+    }
+    @ExceptionHandler(TaskTimeException.class)
+    public ResponseEntity<ResponseWithoutDetails> handleTaskTimeException(TaskTimeException taskTimeException){
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setMessage(taskTimeException.getMessage());
         responseWithoutDetails.setStatus("400");
         return ResponseEntity.badRequest().body(responseWithoutDetails);
     }
