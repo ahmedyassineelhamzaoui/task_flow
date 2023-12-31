@@ -1,6 +1,7 @@
 package com.app.taskflow.models.dto;
 
 
+import com.app.taskflow.common.validation.interfaces.TimesTamp;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,10 +30,12 @@ public class TaskDTO {
 
     @NotNull(message = "End Date cannot be null")
     @Future(message = "Start Date must be in the future")
+    @TimesTamp
     private Date startDate;
 
     @NotNull(message = "Start Date cannot be null")
     @Future(message = "End Date must be in the future")
+    @TimesTamp
     private Date endDate;
 
     @NotNull(message = "user is required")
