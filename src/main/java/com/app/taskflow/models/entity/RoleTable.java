@@ -1,12 +1,11 @@
 package com.app.taskflow.models.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Collate;
 import org.springframework.security.core.GrantedAuthority;
+
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -22,4 +21,5 @@ public class RoleTable implements GrantedAuthority {
 
     @Column(unique = true)
     private String authority;
+
 }

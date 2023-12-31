@@ -14,7 +14,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class TaskTag {
+public class TaskHasTags {
+
     @Id
     @GeneratedValue(generator = "uuid2")
     private UUID id;

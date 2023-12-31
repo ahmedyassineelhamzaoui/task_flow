@@ -40,7 +40,7 @@ public class Task {
 
 
     @OneToMany(mappedBy = "task")
-    private List<TaskTag> taskTags;
+    private List<TaskHasTags> taskTags;
 
     @ManyToOne
     private UserTable user;

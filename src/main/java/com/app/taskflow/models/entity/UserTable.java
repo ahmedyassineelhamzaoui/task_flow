@@ -44,7 +44,7 @@ public class UserTable implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Jeton> jetons;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     private Collection<RoleTable> authorities= new ArrayList<>();
 
 

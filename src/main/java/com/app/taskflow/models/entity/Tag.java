@@ -23,5 +23,5 @@ public class Tag {
     private String name;
 
     @OneToMany(mappedBy = "tag")
-    private List<TaskTag> taskTags;
+    private List<TaskHasTags> taskTags;
 }
