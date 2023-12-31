@@ -11,7 +11,10 @@ import com.app.taskflow.services.facade.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -24,6 +27,13 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
     @Override
     public void addTask(TaskDTO taskDTO) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            dateFormat.parse(formatDateToString(taskDTO.getStartDate()));
+            dateFormat.parse(formatDateToString(taskDTO.getEndDate()));
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Invalid timestamp format. Please use 'yyyy-MM-dd'T'HH:mm:ss' format");
+        }
         if(!isUserExist(taskDTO.getUser().getId())){
             throw new NoSuchElementException("User not found");
         }
@@ -38,5 +48,9 @@ public class TaskServiceImpl implements TaskService {
     }
     public boolean isUserExist(UUID id){
         return userRepository.existsById(id);
+    }
+    private static String formatDateToString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(date);
     }
 }

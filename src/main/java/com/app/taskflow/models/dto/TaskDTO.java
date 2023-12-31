@@ -30,12 +30,10 @@ public class TaskDTO {
 
     @NotNull(message = "End Date cannot be null")
     @Future(message = "Start Date must be in the future")
-    @TimesTamp
     private Date startDate;
 
     @NotNull(message = "Start Date cannot be null")
     @Future(message = "End Date must be in the future")
-    @TimesTamp
     private Date endDate;
 
     @NotNull(message = "user is required")
