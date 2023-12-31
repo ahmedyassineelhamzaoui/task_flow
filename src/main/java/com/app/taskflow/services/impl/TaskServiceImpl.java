@@ -27,6 +27,9 @@ public class TaskServiceImpl implements TaskService {
         if(!isUserExist(taskDTO.getUser().getId())){
             throw new NoSuchElementException("User not found");
         }
+        if(taskDTO.getTags().size() <2){
+            throw new TaskTagsSizeException("Tags size must be greater than 1");
+        }
         taskRepository.save(taskMapper.toEntity(taskDTO));
 
     }
