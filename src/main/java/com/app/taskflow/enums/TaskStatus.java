@@ -1,5 +1,5 @@
 package com.app.taskflow.enums;
 
 public enum TaskStatus {
-    COMPLETED,TODO,IN_PROGRESS
+    COMPLETED,TODO,IN_PROGRESS,NOT_DONE;
 }
