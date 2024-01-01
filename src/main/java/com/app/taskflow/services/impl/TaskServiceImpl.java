@@ -107,11 +107,9 @@ public class TaskServiceImpl implements TaskService {
 
     public  boolean  userCanAssignTask(TaskDTO taskDTO,UserTable userTable){
         List<RoleTable> roles = userTable.getAuthorities().stream().collect(Collectors.toList());
-        System.out.println(roles);
-        System.out.println(userTable.getAuthorities());
-        for(RoleTable roleTable : roles){
-            System.out.println(roleTable.getAuthority());
-            if(roleTable.getAuthority() =="ADMIN" || roleTable.getAuthority() =="MANAGER"){
+
+        for(RoleTable roleTable : userTable.getAuthorities()){
+            if(roleTable.getAuthority().equals("ADMIN") || roleTable.getAuthority().equals("MANAGER")){
                 return true;
             }
         }
