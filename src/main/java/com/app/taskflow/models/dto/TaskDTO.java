@@ -36,9 +36,13 @@ public class TaskDTO {
     @Future(message = "End Date must be in the future")
     private Date endDate;
 
-    @NotNull(message = "user is required")
-    private UserTableDTO user;
-
     @NotEmpty(message = "tags is required")
     private List<TagDTO> tags;
+
+    private UserTableDTO createdBy;
+
+    @NotNull(message = "user is required")
+    private UserTableDTO assignedTo;
+
+
 }

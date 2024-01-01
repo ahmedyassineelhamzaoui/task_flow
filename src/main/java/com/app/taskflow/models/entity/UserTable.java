@@ -38,9 +38,12 @@ public class UserTable implements UserDetails {
 
     private boolean enabled=true;
 
-    @OneToMany(mappedBy = "user")
-    private List<Task> tasks;
+    @OneToMany(mappedBy = "createdBy")
+    private List<Task> createdtasks;
 
+    @OneToMany(mappedBy = "assignedTo")
+    private List<Task> assignedtasks;
+    
     @OneToMany(mappedBy = "user")
     private List<Jeton> jetons;
 

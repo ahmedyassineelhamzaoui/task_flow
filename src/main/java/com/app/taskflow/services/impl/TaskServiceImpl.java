@@ -44,7 +44,7 @@ public class TaskServiceImpl implements TaskService {
         UserTable userTable = (UserTable) authentication.getPrincipal();
         System.out.println(userTable.getUsername());*/
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(!isUserExist(taskDTO.getUser().getId())){
+        if(!isUserExist(taskDTO.getAssignedTo().getId())){
             throw new NoSuchElementException("User not found");
         }
         try {

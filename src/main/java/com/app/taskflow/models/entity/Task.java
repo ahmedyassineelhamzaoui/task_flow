@@ -43,6 +43,9 @@ public class Task {
     private List<TaskHasTags> taskTags;
 
     @ManyToOne
-    private UserTable user;
+    private UserTable createdBy;
+
+    @ManyToOne
+    private UserTable assignedTo;
 
 }
