@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class AddRoleTOUserSeeder {
     private final UserService userService;
     public void seed() {
-            /*userService.AddRoleToUser("yassine@gmail.com", "ADMIN");
+            userService.AddRoleToUser("yassine@gmail.com", "ADMIN");
             userService.AddRoleToUser("yassine@gmail.com", "USER");
             userService.AddRoleToUser("yassine@gmail.com", "MANAGER");
 
@@ -20,7 +20,7 @@ public class AddRoleTOUserSeeder {
             userService.AddRoleToUser("adil@gmail.com","USER");
 
             userService.AddRoleToUser("bassem@gmail.com","ADMIN");
-            userService.AddRoleToUser("bassem@gmail.com","USER");*/
+            userService.AddRoleToUser("bassem@gmail.com","USER");
         }
 
 }

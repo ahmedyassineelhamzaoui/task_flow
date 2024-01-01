@@ -18,10 +18,10 @@ public class UserSeeder {
      if(userRepository.count() == 0){
          List<UserTable> users = List.of(
 
-           UserTable.builder().firstName("yassine").lastName("ahmed").email("yassine@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build(),
-           UserTable.builder().firstName("mohamed").lastName("saadi").email("mohamed@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build(),
-           UserTable.builder().firstName("adil").lastName("hajji").email("adil@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build(),
-           UserTable.builder().firstName("bassem").lastName("amin").email("bassem@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build()
+           UserTable.builder().firstName("yassine").lastName("ahmed").modificationCredit(2L).deletionCredit(1L).email("yassine@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build(),
+           UserTable.builder().firstName("mohamed").lastName("saadi").modificationCredit(2L).deletionCredit(1L).email("mohamed@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build(),
+           UserTable.builder().firstName("adil").lastName("hajji").modificationCredit(2L).deletionCredit(1L).email("adil@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build(),
+           UserTable.builder().firstName("bassem").modificationCredit(2L).deletionCredit(1L).lastName("amin").email("bassem@gmail.com").password(passwordEncoder.encode("!Password12@")).enabled(true).credentialsNonExpired(true).accountNonExpired(true).accountNonLocked(true).build()
          );
          userRepository.saveAll(users);
      }

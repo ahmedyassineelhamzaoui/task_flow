@@ -25,6 +25,8 @@ public class UserTableDTO {
 
     private String email;
 
+    private Long modificationCredit;
 
+    private Long deletionCredit;
 
 }
