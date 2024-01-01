@@ -10,20 +10,21 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class Order {
+public class Demand {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     private UUID id;
 
     @ManyToOne
-    private UserTable user;
+    private UserTable demandBy;
 
     @OneToOne
     private Task task;
 
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 }

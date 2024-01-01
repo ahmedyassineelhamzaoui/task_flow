@@ -45,6 +45,8 @@ public class UserTable implements UserDetails {
     @OneToMany(mappedBy = "assignedTo")
     private List<Task> assignedtasks;
 
+    @OneToMany(mappedBy = "demandBy")
+    private List<Demand> demands;
 
     @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
     private List<RoleTable> authorities = new ArrayList<>();
