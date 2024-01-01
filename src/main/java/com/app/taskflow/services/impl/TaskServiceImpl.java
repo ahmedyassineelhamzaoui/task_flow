@@ -3,6 +3,7 @@ package com.app.taskflow.services.impl;
 import com.app.taskflow.common.exception.custom.TaskTagsSizeException;
 import com.app.taskflow.common.exception.custom.TaskTimeException;
 import com.app.taskflow.mapper.TaskMapper;
+import com.app.taskflow.mapper.UserTableMapper;
 import com.app.taskflow.models.dto.TagDTO;
 import com.app.taskflow.models.dto.TaskDTO;
 import com.app.taskflow.models.entity.Task;
@@ -37,12 +38,11 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
     private final TaskHasTagRepository taskHasTagRepository;
+    private final UserTableMapper userTableMapper;
 
     @Override
     public void addTask(TaskDTO taskDTO) {
-        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserTable userTable = (UserTable) authentication.getPrincipal();
-        System.out.println(userTable.getUsername());*/
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(!isUserExist(taskDTO.getAssignedTo().getId())){
             throw new NoSuchElementException("User not found");
@@ -71,6 +71,10 @@ public class TaskServiceImpl implements TaskService {
         if(taskDTO.getTags().size() <2){
             throw new TaskTagsSizeException("Tags size must be greater than 1");
         }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserTable userTable = (UserTable) authentication.getPrincipal();
+
+        taskDTO.setCreatedBy(userTableMapper.toDTO(userTable));
         Task task =  taskRepository.save(taskMapper.toEntity(taskDTO));
         List<TaskHasTags> taskHasTagsList = toTaskHasTagsList(taskDTO.getTags(), task);
         taskHasTagRepository.saveAll(taskHasTagsList);
