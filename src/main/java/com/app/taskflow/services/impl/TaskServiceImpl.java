@@ -6,6 +6,7 @@ import com.app.taskflow.mapper.TaskMapper;
 import com.app.taskflow.mapper.UserTableMapper;
 import com.app.taskflow.models.dto.TagDTO;
 import com.app.taskflow.models.dto.TaskDTO;
+import com.app.taskflow.models.entity.RoleTable;
 import com.app.taskflow.models.entity.Task;
 import com.app.taskflow.models.entity.TaskHasTags;
 import com.app.taskflow.models.entity.UserTable;
@@ -74,7 +75,7 @@ public class TaskServiceImpl implements TaskService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserTable userTable = (UserTable) authentication.getPrincipal();
 
-        taskDTO.setCreatedBy(userTableMapper.toDTO(userTable));
+
         Task task =  taskRepository.save(taskMapper.toEntity(taskDTO));
         List<TaskHasTags> taskHasTagsList = toTaskHasTagsList(taskDTO.getTags(), task);
         taskHasTagRepository.saveAll(taskHasTagsList);
@@ -98,4 +99,6 @@ public class TaskServiceImpl implements TaskService {
             return taskHasTags;
         }).collect(Collectors.toList());
     }
+
+
 }

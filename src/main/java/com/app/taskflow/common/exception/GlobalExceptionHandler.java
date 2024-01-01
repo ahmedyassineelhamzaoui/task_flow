@@ -3,6 +3,7 @@ package com.app.taskflow.common.exception;
 
 import com.app.taskflow.common.exception.custom.TaskTagsSizeException;
 import com.app.taskflow.common.exception.custom.TaskTimeException;
+import com.app.taskflow.common.exception.custom.UserAssignTaskException;
 import com.app.taskflow.common.response.ResponseWithDetails;
 import com.app.taskflow.common.response.ResponseWithoutDetails;
 import lombok.RequiredArgsConstructor;
@@ -94,6 +95,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseWithoutDetails> handleHttpMessageNotReadableException(HttpMessageNotReadableException httpMessageNotReadableException){
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
         responseWithoutDetails.setMessage(httpMessageNotReadableException.getMessage());
+        responseWithoutDetails.setStatus("400");
+        return ResponseEntity.badRequest().body(responseWithoutDetails);
+    }
+    @ExceptionHandler(UserAssignTaskException.class)
+    public ResponseEntity<ResponseWithoutDetails> handleUserAssignTaskException(UserAssignTaskException userAssignTaskException){
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setMessage(userAssignTaskException.getMessage());
         responseWithoutDetails.setStatus("400");
         return ResponseEntity.badRequest().body(responseWithoutDetails);
     }
