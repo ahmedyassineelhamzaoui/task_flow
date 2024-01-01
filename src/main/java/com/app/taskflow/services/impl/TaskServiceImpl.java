@@ -3,6 +3,7 @@ package com.app.taskflow.services.impl;
 import com.app.taskflow.common.exception.custom.TaskTagsSizeException;
 import com.app.taskflow.common.exception.custom.TaskTimeException;
 import com.app.taskflow.common.exception.custom.UserAssignTaskException;
+import com.app.taskflow.enums.TaskStatus;
 import com.app.taskflow.mapper.TaskMapper;
 import com.app.taskflow.mapper.UserTableMapper;
 import com.app.taskflow.models.dto.TagDTO;
@@ -18,12 +19,14 @@ import com.app.taskflow.repositories.UserRepository;
 import com.app.taskflow.services.facade.TaskService;
 import com.app.taskflow.services.facade.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
@@ -117,5 +120,15 @@ public class TaskServiceImpl implements TaskService {
             return true;
         }
         return false;
+    }
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void updateOverdueTasks() {
+        Date now = new Date();
+        taskRepository.findAll().stream()
+                .filter(task -> task.getEndDate().before(now) && !task.getStatus().equals(TaskStatus.NOT_DONE) && !task.getStatus().equals(TaskStatus.COMPLETED))
+                .forEach(task -> {
+                    task.setStatus(TaskStatus.NOT_DONE);
+                    taskRepository.save(task);
+                });
     }
 }
