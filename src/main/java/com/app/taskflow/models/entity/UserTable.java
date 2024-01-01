@@ -22,10 +22,14 @@ public class UserTable implements UserDetails {
     private String firstName;
     private String lastName;
 
+    private Long modificationCredit;
+    private Long deletionCredit;
+
     @Column(unique = true)
     private String email;
 
     private String password;
+
 
     private boolean accountNonExpired=true;
 
@@ -40,9 +44,7 @@ public class UserTable implements UserDetails {
 
     @OneToMany(mappedBy = "assignedTo")
     private List<Task> assignedtasks;
-    
-    @OneToMany(mappedBy = "user")
-    private List<Jeton> jetons;
+
 
     @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
     private List<RoleTable> authorities = new ArrayList<>();
