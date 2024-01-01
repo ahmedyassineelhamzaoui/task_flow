@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @Entity
@@ -47,9 +44,8 @@ public class UserTable implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Jeton> jetons;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private Collection<RoleTable> authorities= new ArrayList<>();
-
+    @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
+    private List<RoleTable> authorities = new ArrayList<>();
 
     @Override
     public String getUsername() {

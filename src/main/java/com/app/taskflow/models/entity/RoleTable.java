@@ -5,8 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.Collate;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Setter
@@ -22,4 +21,6 @@ public class RoleTable implements GrantedAuthority {
     @Column(unique = true)
     private String authority;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<UserTable> users = new ArrayList<>();
 }

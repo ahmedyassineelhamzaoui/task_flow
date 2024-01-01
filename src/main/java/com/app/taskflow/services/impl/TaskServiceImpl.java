@@ -2,6 +2,7 @@ package com.app.taskflow.services.impl;
 
 import com.app.taskflow.common.exception.custom.TaskTagsSizeException;
 import com.app.taskflow.common.exception.custom.TaskTimeException;
+import com.app.taskflow.common.exception.custom.UserAssignTaskException;
 import com.app.taskflow.mapper.TaskMapper;
 import com.app.taskflow.mapper.UserTableMapper;
 import com.app.taskflow.models.dto.TagDTO;
@@ -75,7 +76,11 @@ public class TaskServiceImpl implements TaskService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserTable userTable = (UserTable) authentication.getPrincipal();
 
-
+        if(userCanAssignTask(taskDTO,userTable)){
+            taskDTO.setCreatedBy(userTableMapper.toDTO(userTable));
+        }else{
+            throw new UserAssignTaskException("You can't assign task to this user");
+        }
         Task task =  taskRepository.save(taskMapper.toEntity(taskDTO));
         List<TaskHasTags> taskHasTagsList = toTaskHasTagsList(taskDTO.getTags(), task);
         taskHasTagRepository.saveAll(taskHasTagsList);
@@ -100,5 +105,19 @@ public class TaskServiceImpl implements TaskService {
         }).collect(Collectors.toList());
     }
 
-
+    public  boolean  userCanAssignTask(TaskDTO taskDTO,UserTable userTable){
+        List<RoleTable> roles = userTable.getAuthorities().stream().collect(Collectors.toList());
+        System.out.println(roles);
+        System.out.println(userTable.getAuthorities());
+        for(RoleTable roleTable : roles){
+            System.out.println(roleTable.getAuthority());
+            if(roleTable.getAuthority() =="ADMIN" || roleTable.getAuthority() =="MANAGER"){
+                return true;
+            }
+        }
+        if(taskDTO.getAssignedTo().getId().equals(userTable.getId())){
+            return true;
+        }
+        return false;
+    }
 }

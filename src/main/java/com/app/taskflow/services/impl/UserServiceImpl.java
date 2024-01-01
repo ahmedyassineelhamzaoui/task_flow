@@ -8,6 +8,7 @@ import com.app.taskflow.repositories.RoleRepository;
 import com.app.taskflow.repositories.UserRepository;
 import com.app.taskflow.services.facade.RoleService;
 import com.app.taskflow.services.facade.UserService;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,10 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import javax.management.relation.Role;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final UserTableMapper userTableMapper;
+    private final RoleRepository roleRepository;
 
     @Override
     public UserDetailsService userDetailsService() {
@@ -44,13 +44,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void AddRoleToUser(String email, String roleName) {
-        UserTableDTO userTableDto = findByEmail(email);
-
+        UserTable user= userRepository.findByEmail(email).orElseThrow(()-> new NoSuchElementException("User not found"));
         RoleTable role =  roleService.findByAuthority(roleName);
-       UserTable userTable =  userTableMapper.toEntity(userTableDto);
-        userTable.getAuthorities().add(role);
-        userRepository.save(userTable);
+
+        if (user.getAuthorities() != null ) {
+            user.getAuthorities().add(role);
+            role.getUsers().add(user);
+        }
+
     }
 
     @Override
