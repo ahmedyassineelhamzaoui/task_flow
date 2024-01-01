@@ -7,6 +7,7 @@ import com.app.taskflow.models.dto.TagDTO;
 import com.app.taskflow.models.dto.TaskDTO;
 import com.app.taskflow.models.entity.Task;
 import com.app.taskflow.models.entity.TaskHasTags;
+import com.app.taskflow.models.entity.UserTable;
 import com.app.taskflow.repositories.TagRepository;
 import com.app.taskflow.repositories.TaskHasTagRepository;
 import com.app.taskflow.repositories.TaskRepository;
@@ -14,6 +15,8 @@ import com.app.taskflow.repositories.UserRepository;
 import com.app.taskflow.services.facade.TaskService;
 import com.app.taskflow.services.facade.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -37,6 +40,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void addTask(TaskDTO taskDTO) {
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserTable userTable = (UserTable) authentication.getPrincipal();
+        System.out.println(userTable.getUsername());*/
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(!isUserExist(taskDTO.getUser().getId())){
             throw new NoSuchElementException("User not found");
