@@ -1,6 +1,7 @@
 package com.app.taskflow.models.entity;
 
 
+import com.app.taskflow.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
