@@ -41,7 +41,6 @@ public class TaskDTO {
 
     private UserTableDTO createdBy;
 
-    @NotNull(message = "user is required")
     private UserTableDTO assignedTo;
 
 
