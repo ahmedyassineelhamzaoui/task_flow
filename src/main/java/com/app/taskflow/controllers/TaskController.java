@@ -33,9 +33,18 @@ public class TaskController {
 
     @PutMapping("task/{id}")
     public  ResponseEntity<ResponseWithoutDetails> assignTaskToUser(@PathVariable UUID id, @RequestParam UUID userId){
+        taskService.assignTaskToUser(id,userId);
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
         responseWithoutDetails.setStatus("200");
         responseWithoutDetails.setMessage("task assigned successfully");
+        return ResponseEntity.ok(responseWithoutDetails);
+    }
+    @PutMapping("task/{id}/status")
+    public  ResponseEntity<ResponseWithoutDetails> changeTaskStatus(@PathVariable UUID id, @RequestParam String status){
+        taskService.changeTaskStatus(id,status);
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setStatus("200");
+        responseWithoutDetails.setMessage("task status changed successfully");
         return ResponseEntity.ok(responseWithoutDetails);
     }
 }
