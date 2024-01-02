@@ -112,26 +112,38 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void changeTaskStatus(UUID id, String status) {
         Task task = taskRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + id));
-        Date now = new Date();
-        if(task.getStartDate().after(now)){
-            throw new TaskTimeException("You can't change task status because task not started yet");
-        }
+        Date now = getDate(task);
         if(task.getEndDate().before(now)){
             throw new TaskTimeException("You can't change task status because task is overdue");
-        }
-        if(task.getAssignedTo() == null){
-            throw new UserAssignTaskException("this task not assigned to any user to update it");
         }
         if(status.equals("COMPLETED")){
             task.setStatus(TaskStatus.COMPLETED);
         }else if(status.equals("IN_PROGRESS")){
-            task.setStatus(TaskStatus.NOT_DONE);
+            task.setStatus(TaskStatus.IN_PROGRESS);
         }else if(status.equals("TODO")){
             task.setStatus(TaskStatus.TODO);
         }else{
             throw new IllegalArgumentException("Invalid status");
         }
         taskRepository.save(task);
+    }
+
+    private static Date getDate(Task task) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserTable user = (UserTable) authentication.getPrincipal();
+
+        Date now = new Date();
+
+        if(task.getAssignedTo() == null){
+            throw new UserAssignTaskException("this task not assigned to any user to update it");
+        }
+        if(!task.getAssignedTo().getId().equals(user.getId())){
+            throw new UserAssignTaskException("this task not assigned to you to update it");
+        }
+        if(task.getStartDate().after(now)){
+            throw new TaskTimeException("You can't change task status because task not started yet");
+        }
+        return now;
     }
 
     public boolean isUserExist(UUID id){
