@@ -11,6 +11,8 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -20,7 +22,19 @@ public class TaskController {
 
     private final TaskService taskService;
     private final ResponseWithoutDetails responseWithoutDetails;
+    private final ResponseWithDetails responseWithDetails;
 
+
+    @GetMapping("tasks")
+    public ResponseEntity<ResponseWithDetails> getAllTasks(){
+        Map<String,Object> response = new HashMap<>();
+        responseWithDetails.setTimestamp(LocalDateTime.now());
+        responseWithDetails.setStatus("200");
+        responseWithDetails.setMessage("tasks retrieved successfully");
+        response.put("tasks",taskService.getAllTasks());
+        responseWithDetails.setDetails(response);
+        return ResponseEntity.ok(responseWithDetails);
+    }
     @PostMapping("task")
     public ResponseEntity<ResponseWithoutDetails> addTask(@RequestBody @Valid TaskDTO taskDTO){
         taskService.addTask(taskDTO);
