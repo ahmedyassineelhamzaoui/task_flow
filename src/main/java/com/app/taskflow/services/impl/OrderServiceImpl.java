@@ -3,6 +3,7 @@ package com.app.taskflow.services.impl;
 import com.app.taskflow.common.exception.custom.OperationException;
 import com.app.taskflow.common.exception.custom.OrderException;
 import com.app.taskflow.mapper.DemandMapper;
+import com.app.taskflow.mapper.UserTableMapper;
 import com.app.taskflow.models.dto.DemandDTO;
 import com.app.taskflow.models.entity.Demand;
 import com.app.taskflow.models.entity.Task;
@@ -30,7 +31,7 @@ public class OrderServiceImpl  implements OrderService {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
     private final DemandMapper demandMapper;
-
+    private final UserTableMapper userTableMapper;
     @Override
     public void addOrder(DemandDTO demandDTO) {
            Task task  = taskRepository.findById(demandDTO.getTask().getId()).orElseThrow(() -> new NoSuchElementException("task not found"));
@@ -47,7 +48,7 @@ public class OrderServiceImpl  implements OrderService {
                    throw  new OrderException("you do not have the necessary modification credit to update this task");
                }
                task.setTaskAlreadyTakeJeton(true);
-               demandDTO.setDemandBy(user);
+               demandDTO.setDemandBy(userTableMapper.toDTO(user));
                taskRepository.save(task);
                orderRepository.save(demandMapper.toEntity(demandDTO));
            }else if (demandDTO.getOperationType().equals("DELETION")){
@@ -61,7 +62,7 @@ public class OrderServiceImpl  implements OrderService {
                    throw  new OrderException("you do not have the necessary deletion credit to delete this task");
                }
                task.setTaskAlreadyTakeJeton(true);
-               demandDTO.setDemandBy(user);
+               demandDTO.setDemandBy(userTableMapper.toDTO(user));
                taskRepository.save(task);
                orderRepository.save(demandMapper.toEntity(demandDTO));
            }else{

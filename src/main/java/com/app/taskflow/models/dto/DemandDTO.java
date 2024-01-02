@@ -23,10 +23,10 @@ public class DemandDTO {
     @NotBlank(message ="operation type is required ")
     private String operationType;
 
-    private UserTable demandBy;
+    private UserTableDTO demandBy;
 
     @NotNull(message =" task that you want to change or delete is required")
-    private Task task;
+    private TaskDTO task;
 
     private String status = "PENDING";
 }
