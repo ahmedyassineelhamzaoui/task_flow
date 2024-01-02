@@ -88,6 +88,19 @@ public class TaskServiceImpl implements TaskService {
         List<TaskHasTags> taskHasTagsList = toTaskHasTagsList(taskDTO.getTags(), task);
         taskHasTagRepository.saveAll(taskHasTagsList);
     }
+
+    @Override
+    public void assignTaskToUser(UUID id, UUID userId) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + id));
+        UserTable userTable = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
+        if(userCanAssignTask(taskMapper.toDTO(task),userTable)){
+            task.setAssignedTo(userTable);
+            taskRepository.save(task);
+        }else{
+            throw new UserAssignTaskException("You can't assign task to this user");
+        }
+    }
+
     public boolean isUserExist(UUID id){
         return userRepository.existsById(id);
     }
