@@ -46,6 +46,11 @@ public class TaskServiceImpl implements TaskService {
     private final UserTableMapper userTableMapper;
 
     @Override
+    public List<TaskDTO> getAllTasks() {
+        return taskRepository.findAll().stream().map(taskMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
     public void addTask(TaskDTO taskDTO) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
