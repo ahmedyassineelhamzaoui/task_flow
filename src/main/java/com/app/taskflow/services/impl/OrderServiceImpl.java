@@ -47,9 +47,7 @@ public class OrderServiceImpl  implements OrderService {
                if(user.getModificationCredit()<1){
                    throw  new OrderException("you do not have the necessary modification credit to update this task");
                }
-               task.setTaskAlreadyTakeJeton(true);
                demandDTO.setDemandBy(userTableMapper.toDTO(user));
-               taskRepository.save(task);
                orderRepository.save(demandMapper.toEntity(demandDTO));
            }else if (demandDTO.getOperationType().equals("DELETION")){
                if(!user.getId().equals(task.getAssignedTo().getId())){
@@ -61,9 +59,7 @@ public class OrderServiceImpl  implements OrderService {
                if(user.getDeletionCredit()<1){
                    throw  new OrderException("you do not have the necessary deletion credit to delete this task");
                }
-               task.setTaskAlreadyTakeJeton(true);
                demandDTO.setDemandBy(userTableMapper.toDTO(user));
-               taskRepository.save(task);
                orderRepository.save(demandMapper.toEntity(demandDTO));
            }else{
                   throw new OperationException("invalid operation type");
