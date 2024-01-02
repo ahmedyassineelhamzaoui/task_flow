@@ -1,5 +1,6 @@
 package com.app.taskflow.services.impl;
 
+import com.app.taskflow.common.exception.custom.OrderException;
 import com.app.taskflow.mapper.DemandMapper;
 import com.app.taskflow.models.dto.DemandDTO;
 import com.app.taskflow.models.entity.Demand;
@@ -9,6 +10,7 @@ import com.app.taskflow.repositories.OrderRepository;
 import com.app.taskflow.repositories.TaskRepository;
 import com.app.taskflow.repositories.UserRepository;
 import com.app.taskflow.services.facade.OrderService;
+import jakarta.persistence.criteria.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,25 +33,29 @@ public class OrderServiceImpl  implements OrderService {
            UserTable user    = userRepository.findById(demandDTO.getDemandBy().getId()).orElseThrow(() -> new NoSuchElementException("user not found"));
            if(demandDTO.getOperationType().equals("MODIFICATION")) {
                if(user.getId() != task.getAssignedTo().getId()){
-
+                   throw  new OrderException("this task not assign to you to update it");
                }
                if(task.isTaskAlreadyTakeJeton()){
-
+                   throw  new OrderException("we can not change this task for you because is already change it by someone ");
                }
                if(user.getModificationCredit()<1){
-
+                   throw  new OrderException("you do not have the necessary modification credit to update this task");
                }
+               task.setTaskAlreadyTakeJeton(true);
+               taskRepository.save(task);
                orderRepository.save(demandMapper.toEntity(demandDTO));
            }else if (demandDTO.getOperationType().equals("DELETION")){
                if(user.getId() != task.getAssignedTo().getId()){
-
+                   throw  new OrderException("this task not assign to you to update it");
                }
                if(task.isTaskAlreadyTakeJeton()){
-
+                   throw  new OrderException("we can not change this task for you because is already change it by someone ");
                }
                if(user.getDeletionCredit()<1){
-
+                   throw  new OrderException("you do not have the necessary deletion credit to delete this task");
                }
+               task.setTaskAlreadyTakeJeton(true);
+               taskRepository.save(task);
                orderRepository.save(demandMapper.toEntity(demandDTO));
            }else{
 
