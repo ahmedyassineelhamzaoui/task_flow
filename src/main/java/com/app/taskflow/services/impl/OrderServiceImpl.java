@@ -36,7 +36,7 @@ public class OrderServiceImpl  implements OrderService {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserTable user = (UserTable) authentication.getPrincipal();
            if(demandDTO.getOperationType().equals("MODIFICATION")) {
-               if(user.getId() != task.getAssignedTo().getId()){
+               if(!user.getId().equals(task.getAssignedTo().getId())){
                    throw  new OrderException("this task not assign to you to update it");
                }
                if(task.isTaskAlreadyTakeJeton()){
@@ -50,7 +50,7 @@ public class OrderServiceImpl  implements OrderService {
                taskRepository.save(task);
                orderRepository.save(demandMapper.toEntity(demandDTO));
            }else if (demandDTO.getOperationType().equals("DELETION")){
-               if(user.getId() != task.getAssignedTo().getId()){
+               if(!user.getId().equals(task.getAssignedTo().getId())){
                    throw  new OrderException("this task not assign to you to update it");
                }
                if(task.isTaskAlreadyTakeJeton()){

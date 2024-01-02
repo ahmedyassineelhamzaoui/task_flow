@@ -1,10 +1,7 @@
 package com.app.taskflow.common.exception;
 
 
-import com.app.taskflow.common.exception.custom.OrderException;
-import com.app.taskflow.common.exception.custom.TaskTagsSizeException;
-import com.app.taskflow.common.exception.custom.TaskTimeException;
-import com.app.taskflow.common.exception.custom.UserAssignTaskException;
+import com.app.taskflow.common.exception.custom.*;
 import com.app.taskflow.common.response.ResponseWithDetails;
 import com.app.taskflow.common.response.ResponseWithoutDetails;
 import lombok.RequiredArgsConstructor;
@@ -107,10 +104,10 @@ public class GlobalExceptionHandler {
         responseWithoutDetails.setStatus("400");
         return ResponseEntity.badRequest().body(responseWithoutDetails);
     }
-    @ExceptionHandler(OperationsException.class)
-    public ResponseEntity<ResponseWithoutDetails> handleOperationException(OperationsException operationsException){
+    @ExceptionHandler(OperationException.class)
+    public ResponseEntity<ResponseWithoutDetails> handleOperationException(OperationException operationException){
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
-        responseWithoutDetails.setMessage(operationsException.getMessage());
+        responseWithoutDetails.setMessage(operationException.getMessage());
         responseWithoutDetails.setStatus("400");
         return ResponseEntity.badRequest().body(responseWithoutDetails);
     }
