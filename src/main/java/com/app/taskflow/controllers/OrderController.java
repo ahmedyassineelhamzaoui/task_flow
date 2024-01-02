@@ -42,12 +42,14 @@ public class OrderController {
         return ResponseEntity.ok(responseWithDetails);
     }
     @PutMapping("/demand/{id}")
-    public ResponseEntity<ResponseWithoutDetails> updateOrder(@PathVariable("id") UUID id, @RequestBody @Valid UpdateDemandRequest updateDemandRequest){
-        orderService.updateOrder(id,updateDemandRequest);
-        responseWithoutDetails.setTimestamp(LocalDateTime.now());
-        responseWithoutDetails.setStatus("200");
-        responseWithoutDetails.setMessage("Order updated successfully");
-        return ResponseEntity.ok(responseWithoutDetails);
+    public ResponseEntity<ResponseWithDetails> updateOrder(@PathVariable("id") UUID id, @RequestBody @Valid UpdateDemandRequest updateDemandRequest){
+        Map<String,Object> response = new HashMap<>();
+        response.put("order",orderService.updateOrder(id,updateDemandRequest));
+        responseWithDetails.setTimestamp(LocalDateTime.now());
+        responseWithDetails.setStatus("200");
+        responseWithDetails.setMessage("Order updated successfully");
+        responseWithDetails.setDetails(response);
+        return ResponseEntity.ok(responseWithDetails);
     }
 
 }
