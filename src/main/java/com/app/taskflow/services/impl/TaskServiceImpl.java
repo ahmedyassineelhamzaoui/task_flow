@@ -109,12 +109,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public  boolean  userCanAssignTask(TaskDTO taskDTO,UserTable userTable){
-        List<RoleTable> roles = userTable.getAuthorities().stream().collect(Collectors.toList());
-
         for(RoleTable roleTable : userTable.getAuthorities()){
             if(roleTable.getAuthority().equals("ADMIN") || roleTable.getAuthority().equals("MANAGER")){
                 return true;
             }
+        }
+        if(taskDTO.getAssignedTo() == null ){
+            throw new UserAssignTaskException("You must assign task to you you can't take it by default");
         }
         if(taskDTO.getAssignedTo().getId().equals(userTable.getId())){
             return true;

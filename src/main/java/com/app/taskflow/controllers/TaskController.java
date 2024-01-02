@@ -8,12 +8,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +28,14 @@ public class TaskController {
         responseWithoutDetails.setStatus("200");
         responseWithoutDetails.setMessage("task added successfully");
 
+        return ResponseEntity.ok(responseWithoutDetails);
+    }
+
+    @PutMapping("task/{id}")
+    public  ResponseEntity<ResponseWithoutDetails> assignTaskToUser(@PathVariable UUID id, @RequestParam UUID userId){
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setStatus("200");
+        responseWithoutDetails.setMessage("task assigned successfully");
         return ResponseEntity.ok(responseWithoutDetails);
     }
 }
