@@ -113,6 +113,9 @@ public class TaskServiceImpl implements TaskService {
     public void changeTaskStatus(UUID id, String status) {
         Task task = taskRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + id));
         Date now = new Date();
+        if(task.getStartDate().after(now)){
+            throw new TaskTimeException("You can't change task status because task not started yet");
+        }
         if(task.getEndDate().before(now)){
             throw new TaskTimeException("You can't change task status because task is overdue");
         }
