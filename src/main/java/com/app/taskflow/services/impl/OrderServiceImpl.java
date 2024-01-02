@@ -2,6 +2,7 @@ package com.app.taskflow.services.impl;
 
 import com.app.taskflow.common.exception.custom.OperationException;
 import com.app.taskflow.common.exception.custom.OrderException;
+import com.app.taskflow.enums.OrderStatus;
 import com.app.taskflow.mapper.DemandMapper;
 import com.app.taskflow.mapper.UserTableMapper;
 import com.app.taskflow.models.dto.DemandDTO;
@@ -87,6 +88,28 @@ public class OrderServiceImpl  implements OrderService {
 
     @Override
     public UpdateDemandRequest updateOrder(UUID id,UpdateDemandRequest updateDemandRequest) {
+        Demand demand = orderRepository.findById(id).orElseThrow(() -> new NoSuchElementException("order not found that you want to update not found"));
+
+        UserTable user = userRepository.findById(updateDemandRequest.getAssignedTo().getId()).orElseThrow(() -> new NoSuchElementException("user that you want to assign to it the task not exist "));
+        Task task = taskRepository.findById(updateDemandRequest.getNewTask().getId()).orElseThrow(() -> new NoSuchElementException("task that you want to assign to user not exist"));
+        if(task.getAssignedTo() != null){
+            throw new OrderException("this task already assign to another user");
+        }
+        if(!demand.getStatus().equals("ACCEPTED")){
+            throw new OrderException("you should update only order with status ACCEPTED because the user will benefit from the credit of modification X 2");
+        }
+        if(demand.getOperationType().equals("MODIFICATION")){
+            user.setModificationCredit(user.getModificationCredit() - 1);
+        } else if (demand.getOperationType().equals("DELETION")){
+            user.setDeletionCredit(user.getDeletionCredit() - 1);
+        }
+        userRepository.save(user);
+        user.setModificationCredit(user.getModificationCredit()-1);
+        task.setTaskAlreadyTakeJeton(true);
+        task.setAssignedTo(user);
+        taskRepository.save(task);
+        demand.setStatus(OrderStatus.ACCEPTED);
+        return orderRepository.save(demand);
         return null;
     }
 }
