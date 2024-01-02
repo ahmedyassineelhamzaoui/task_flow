@@ -1,5 +1,6 @@
 package com.app.taskflow.services.impl;
 
+import com.app.taskflow.common.exception.custom.OperationException;
 import com.app.taskflow.common.exception.custom.OrderException;
 import com.app.taskflow.mapper.DemandMapper;
 import com.app.taskflow.models.dto.DemandDTO;
@@ -58,7 +59,7 @@ public class OrderServiceImpl  implements OrderService {
                taskRepository.save(task);
                orderRepository.save(demandMapper.toEntity(demandDTO));
            }else{
-
+                  throw new OperationException("invalid operation type");
            }
     }
 
