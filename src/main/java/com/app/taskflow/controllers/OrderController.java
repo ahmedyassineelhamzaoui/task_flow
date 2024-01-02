@@ -3,6 +3,7 @@ package com.app.taskflow.controllers;
 import com.app.taskflow.common.response.ResponseWithDetails;
 import com.app.taskflow.common.response.ResponseWithoutDetails;
 import com.app.taskflow.models.dto.DemandDTO;
+import com.app.taskflow.models.dto.request.UpdateDemandRequest;
 import com.app.taskflow.services.facade.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +40,14 @@ public class OrderController {
         responseWithDetails.setMessage("All demands");
         responseWithDetails.setDetails(response);
         return ResponseEntity.ok(responseWithDetails);
+    }
+    @PutMapping("/demand/{id}")
+    public ResponseEntity<ResponseWithoutDetails> updateOrder(@PathVariable("id") UUID id, @RequestBody @Valid UpdateDemandRequest updateDemandRequest){
+        orderService.updateOrder(id,updateDemandRequest);
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setStatus("200");
+        responseWithoutDetails.setMessage("Order updated successfully");
+        return ResponseEntity.ok(responseWithoutDetails);
     }
 
 }
