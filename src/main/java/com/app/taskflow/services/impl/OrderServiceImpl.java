@@ -109,7 +109,6 @@ public class OrderServiceImpl  implements OrderService {
         task.setAssignedTo(user);
         taskRepository.save(task);
         demand.setStatus(OrderStatus.ACCEPTED);
-        return orderRepository.save(demand);
-        return null;
+        return demandMapper.toUpdateDemandRequest(orderRepository.save(demand));
     }
 }
