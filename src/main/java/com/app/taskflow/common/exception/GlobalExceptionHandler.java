@@ -1,6 +1,7 @@
 package com.app.taskflow.common.exception;
 
 
+import com.app.taskflow.common.exception.custom.OrderException;
 import com.app.taskflow.common.exception.custom.TaskTagsSizeException;
 import com.app.taskflow.common.exception.custom.TaskTimeException;
 import com.app.taskflow.common.exception.custom.UserAssignTaskException;
@@ -110,6 +111,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseWithoutDetails> handleOperationException(OperationsException operationsException){
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
         responseWithoutDetails.setMessage(operationsException.getMessage());
+        responseWithoutDetails.setStatus("400");
+        return ResponseEntity.badRequest().body(responseWithoutDetails);
+    }
+    @ExceptionHandler(OrderException.class)
+    public ResponseEntity<ResponseWithoutDetails> handleOrderException(OrderException orderException){
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setMessage(orderException.getMessage());
         responseWithoutDetails.setStatus("400");
         return ResponseEntity.badRequest().body(responseWithoutDetails);
     }
