@@ -49,9 +49,12 @@ public class TaskServiceImpl implements TaskService {
     public void addTask(TaskDTO taskDTO) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(!isUserExist(taskDTO.getAssignedTo().getId())){
-            throw new NoSuchElementException("User not found");
+        if(taskDTO.getAssignedTo() != null){
+            if(!isUserExist(taskDTO.getAssignedTo().getId())){
+                throw new NoSuchElementException("User not found");
+            }
         }
+
         try {
             dateFormat.parse(formatDateToString(taskDTO.getStartDate()));
             dateFormat.parse(formatDateToString(taskDTO.getEndDate()));
