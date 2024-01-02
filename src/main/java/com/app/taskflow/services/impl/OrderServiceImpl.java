@@ -5,6 +5,7 @@ import com.app.taskflow.common.exception.custom.OrderException;
 import com.app.taskflow.mapper.DemandMapper;
 import com.app.taskflow.mapper.UserTableMapper;
 import com.app.taskflow.models.dto.DemandDTO;
+import com.app.taskflow.models.dto.request.UpdateDemandRequest;
 import com.app.taskflow.models.entity.Demand;
 import com.app.taskflow.models.entity.Task;
 import com.app.taskflow.models.entity.UserTable;
@@ -85,7 +86,7 @@ public class OrderServiceImpl  implements OrderService {
     }
 
     @Override
-    public DemandDTO updateOrder(DemandDTO demandDTO) {
+    public UpdateDemandRequest updateOrder(UUID id,UpdateDemandRequest updateDemandRequest) {
         return null;
     }
 }
