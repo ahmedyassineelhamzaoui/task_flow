@@ -108,6 +108,9 @@ public class TaskServiceImpl implements TaskService {
         if(task.getEndDate().before(now)){
             throw new TaskTimeException("You can't change task status because task is overdue");
         }
+        if(task.getAssignedTo() == null){
+            throw new UserAssignTaskException("this task not assigned to any user to update it");
+        }
         if(status.equals("COMPLETED")){
             task.setStatus(TaskStatus.COMPLETED);
         }else if(status.equals("IN_PROGRESS")){
