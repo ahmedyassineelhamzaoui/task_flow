@@ -23,8 +23,7 @@ public class TaskController {
     private final TaskService taskService;
     private final ResponseWithoutDetails responseWithoutDetails;
 
-   /* @PostMapping("task")
-    @PostAuthorize("hasAnyAuthority('USER')")
+    @PostMapping("task")
     public ResponseEntity<ResponseWithoutDetails> addTask(@RequestBody @Valid TaskDTO taskDTO){
         taskService.addTask(taskDTO);
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
@@ -32,5 +31,5 @@ public class TaskController {
         responseWithoutDetails.setMessage("task added successfully");
 
         return ResponseEntity.ok(responseWithoutDetails);
-    }*/
+    }
 }

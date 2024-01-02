@@ -48,14 +48,5 @@ public class AuthorizationController {
         responseWithoutDetails.setMessage("Role added to user");
         return ResponseEntity.ok(responseWithoutDetails);
     }
-    @PostMapping("task")
-    public ResponseEntity<ResponseWithoutDetails> addTask(@RequestBody @Valid TaskDTO taskDTO){
-        taskService.addTask(taskDTO);
-        responseWithoutDetails.setTimestamp(LocalDateTime.now());
-        responseWithoutDetails.setStatus("200");
-        responseWithoutDetails.setMessage("task added successfully");
-
-        return ResponseEntity.ok(responseWithoutDetails);
-    }
 
 }
