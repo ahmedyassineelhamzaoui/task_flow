@@ -87,4 +87,9 @@ public class OrderServiceImpl  implements OrderService {
     public DemandDTO getOrderById(UUID id) {
         return null;
     }
+
+    @Override
+    public DemandDTO updateOrder(DemandDTO demandDTO) {
+        return null;
+    }
 }
