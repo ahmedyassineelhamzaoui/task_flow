@@ -16,6 +16,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.management.OperationsException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -102,6 +103,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseWithoutDetails> handleUserAssignTaskException(UserAssignTaskException userAssignTaskException){
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
         responseWithoutDetails.setMessage(userAssignTaskException.getMessage());
+        responseWithoutDetails.setStatus("400");
+        return ResponseEntity.badRequest().body(responseWithoutDetails);
+    }
+    @ExceptionHandler(OperationsException.class)
+    public ResponseEntity<ResponseWithoutDetails> handleOperationException(OperationsException operationsException){
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setMessage(operationsException.getMessage());
         responseWithoutDetails.setStatus("400");
         return ResponseEntity.badRequest().body(responseWithoutDetails);
     }

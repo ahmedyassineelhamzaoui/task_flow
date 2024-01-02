@@ -13,6 +13,8 @@ import com.app.taskflow.repositories.UserRepository;
 import com.app.taskflow.services.facade.OrderService;
 import jakarta.persistence.criteria.Order;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +33,8 @@ public class OrderServiceImpl  implements OrderService {
     @Override
     public void addOrder(DemandDTO demandDTO) {
            Task task  = taskRepository.findById(demandDTO.getTask().getId()).orElseThrow(() -> new NoSuchElementException("task not found"));
-           UserTable user    = userRepository.findById(demandDTO.getDemandBy().getId()).orElseThrow(() -> new NoSuchElementException("user not found"));
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserTable user = (UserTable) authentication.getPrincipal();
            if(demandDTO.getOperationType().equals("MODIFICATION")) {
                if(user.getId() != task.getAssignedTo().getId()){
                    throw  new OrderException("this task not assign to you to update it");
@@ -43,6 +46,7 @@ public class OrderServiceImpl  implements OrderService {
                    throw  new OrderException("you do not have the necessary modification credit to update this task");
                }
                task.setTaskAlreadyTakeJeton(true);
+               demandDTO.setDemandBy(user);
                taskRepository.save(task);
                orderRepository.save(demandMapper.toEntity(demandDTO));
            }else if (demandDTO.getOperationType().equals("DELETION")){
@@ -56,6 +60,7 @@ public class OrderServiceImpl  implements OrderService {
                    throw  new OrderException("you do not have the necessary deletion credit to delete this task");
                }
                task.setTaskAlreadyTakeJeton(true);
+               demandDTO.setDemandBy(user);
                taskRepository.save(task);
                orderRepository.save(demandMapper.toEntity(demandDTO));
            }else{
