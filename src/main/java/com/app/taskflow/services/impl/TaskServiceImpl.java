@@ -101,6 +101,25 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
+    @Override
+    public void changeTaskStatus(UUID id, String status) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + id));
+        Date now = new Date();
+        if(task.getEndDate().before(now)){
+            throw new TaskTimeException("You can't change task status because task is overdue");
+        }
+        if(status.equals("COMPLETED")){
+            task.setStatus(TaskStatus.COMPLETED);
+        }else if(status.equals("IN_PROGRESS")){
+            task.setStatus(TaskStatus.NOT_DONE);
+        }else if(status.equals("TODO")){
+            task.setStatus(TaskStatus.TODO);
+        }else{
+            throw new IllegalArgumentException("Invalid status");
+        }
+        taskRepository.save(task);
+    }
+
     public boolean isUserExist(UUID id){
         return userRepository.existsById(id);
     }

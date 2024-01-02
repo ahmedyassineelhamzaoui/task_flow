@@ -8,4 +8,6 @@ public interface TaskService {
 
     void addTask(TaskDTO taskDTO);
     void assignTaskToUser(UUID id, UUID userId);
+
+    void changeTaskStatus(UUID id, String status);
 }
