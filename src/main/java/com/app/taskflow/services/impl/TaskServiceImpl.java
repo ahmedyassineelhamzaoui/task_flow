@@ -101,11 +101,16 @@ public class TaskServiceImpl implements TaskService {
     public void assignTaskToUser(UUID id, UUID userId) {
         Task task = taskRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + id));
         UserTable userTable = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
-        if(userCanAssignTask(taskMapper.toDTO(task),userTable)){
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserTable user = (UserTable) authentication.getPrincipal();
+        if(task.getAssignedTo() != null){
+            throw new UserAssignTaskException("This task already assigned to user");
+        }
+        if(checkUserRole(user)){
             task.setAssignedTo(userTable);
             taskRepository.save(task);
         }else{
-            throw new UserAssignTaskException("You can't assign task to this user");
+            throw new UserAssignTaskException("You don't have permission to assign task to this user");
         }
     }
 
@@ -167,16 +172,22 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public  boolean  userCanAssignTask(TaskDTO taskDTO,UserTable userTable){
-        for(RoleTable roleTable : userTable.getAuthorities()){
-            if(roleTable.getAuthority().equals("ADMIN") || roleTable.getAuthority().equals("MANAGER")){
-                return true;
-            }
+        if(checkUserRole(userTable)){
+            return true;
         }
         if(taskDTO.getAssignedTo() == null ){
             throw new UserAssignTaskException("You must assign task to you you can't take it by default");
         }
         if(taskDTO.getAssignedTo().getId().equals(userTable.getId())){
             return true;
+        }
+        return false;
+    }
+    public boolean checkUserRole(UserTable userTable){
+        for(RoleTable roleTable : userTable.getAuthorities()){
+            if(roleTable.getAuthority().equals("ADMIN") || roleTable.getAuthority().equals("MANAGER")){
+                return true;
+            }
         }
         return false;
     }

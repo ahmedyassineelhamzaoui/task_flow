@@ -46,7 +46,7 @@ public class TaskController {
     }
 
     @PutMapping("task/{id}")
-    public  ResponseEntity<ResponseWithoutDetails> assignTaskToUser(@PathVariable UUID id, @RequestParam UUID userId){
+        public  ResponseEntity<ResponseWithoutDetails> assignTaskToUser(@PathVariable UUID id, @RequestParam UUID userId){
         taskService.assignTaskToUser(id,userId);
         responseWithoutDetails.setTimestamp(LocalDateTime.now());
         responseWithoutDetails.setStatus("200");
