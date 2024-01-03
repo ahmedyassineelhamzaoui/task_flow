@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -29,4 +30,6 @@ public class DemandDTO {
     private TaskDTO task;
 
     private String status = "PENDING";
+
+    private Date createdAt;
 }

@@ -6,6 +6,7 @@ import com.app.taskflow.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -31,4 +32,7 @@ public class Demand {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 }
