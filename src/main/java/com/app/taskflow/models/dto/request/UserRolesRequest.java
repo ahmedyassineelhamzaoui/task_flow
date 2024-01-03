@@ -2,7 +2,6 @@ package com.app.taskflow.models.dto.request;
 
 
 import com.app.taskflow.models.entity.RoleTable;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

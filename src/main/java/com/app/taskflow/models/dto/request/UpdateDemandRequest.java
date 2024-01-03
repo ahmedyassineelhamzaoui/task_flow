@@ -2,7 +2,6 @@ package com.app.taskflow.models.dto.request;
 
 import com.app.taskflow.models.dto.TaskDTO;
 import com.app.taskflow.models.dto.UserTableDTO;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-projectKey=project:spring-security
+projectKey=project:task_flow_v1
 serverUrl=http://localhost:9000
 serverVersion=9.8.0.63668
-dashboardUrl=http://localhost:9000/dashboard?id=project%3Aspring-security
-ceTaskId=AYzJJZ80BhQs0YLgFiDD
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYzJJZ80BhQs0YLgFiDD
+dashboardUrl=http://localhost:9000/dashboard?id=project%3Atask_flow_v1
+ceTaskId=AYzO3OjqJ_vHITim31FY
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYzO3OjqJ_vHITim31FY

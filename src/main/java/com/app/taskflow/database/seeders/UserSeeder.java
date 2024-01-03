@@ -2,7 +2,6 @@ package com.app.taskflow.database.seeders;
 
 import com.app.taskflow.models.entity.UserTable;
 import com.app.taskflow.repositories.UserRepository;
-import com.app.taskflow.services.facade.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

@@ -14,15 +14,11 @@ import com.app.taskflow.repositories.OrderRepository;
 import com.app.taskflow.repositories.TaskRepository;
 import com.app.taskflow.repositories.UserRepository;
 import com.app.taskflow.services.facade.OrderService;
-import jakarta.persistence.criteria.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -105,7 +101,6 @@ public class OrderServiceImpl  implements OrderService {
             user.setDeletionCredit(user.getDeletionCredit() - 1);
         }
         userRepository.save(user);
-        user.setModificationCredit(user.getModificationCredit()-1);
         task.setTaskAlreadyTakeJeton(true);
         task.setAssignedTo(user);
         taskRepository.save(task);

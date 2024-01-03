@@ -1,10 +1,5 @@
 package com.app.taskflow.models.dto;
 
-import com.app.taskflow.enums.OperationType;
-import com.app.taskflow.enums.OrderStatus;
-import com.app.taskflow.models.entity.Task;
-import com.app.taskflow.models.entity.UserTable;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
