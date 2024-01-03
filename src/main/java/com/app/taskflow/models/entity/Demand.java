@@ -32,7 +32,7 @@ public class Demand {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 }

@@ -16,13 +16,14 @@ import com.app.taskflow.repositories.UserRepository;
 import com.app.taskflow.services.facade.OrderService;
 import jakarta.persistence.criteria.Order;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,5 +111,24 @@ public class OrderServiceImpl  implements OrderService {
         taskRepository.save(task);
         demand.setStatus(OrderStatus.ACCEPTED);
         return demandMapper.toUpdateDemandRequest(orderRepository.save(demand));
+    }
+
+    @Scheduled(fixedRate = 3600000)
+    public void verifyManagerResponse() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, -12);
+        Date currentTimeMinus12Hours = cal.getTime();
+
+        List<Demand> orders = orderRepository.findAll().stream()
+                .filter(order -> order.getCreatedAt().before(currentTimeMinus12Hours) && !order.getStatus().equals( "ACCEPTED"))
+                .collect(Collectors.toList());
+
+        for (Demand order : orders) {
+            UserTable user = order.getDemandBy();
+            if(order.getOperationType().equals("MODIFICATION")) {
+                user.setModificationCredit(user.getModificationCredit() + 2);
+                userRepository.save(user);
+            }
+        }
     }
 }

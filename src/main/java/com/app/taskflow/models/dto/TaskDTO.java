@@ -1,14 +1,12 @@
 package com.app.taskflow.models.dto;
 
 
-import com.app.taskflow.common.validation.interfaces.TimesTamp;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
