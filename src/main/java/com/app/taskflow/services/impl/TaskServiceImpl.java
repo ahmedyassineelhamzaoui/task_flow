@@ -133,6 +133,22 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.save(task);
     }
 
+    @Override
+    public void deleteTask(UUID id) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + id));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserTable user = (UserTable) authentication.getPrincipal();
+        if(!checkUserRole(user)){
+            if(task.getAssignedTo() == null){
+                throw new UserAssignTaskException("you don't have permission to delete this task");
+            }
+            if(!task.getAssignedTo().getId().equals(user.getId())){
+                throw new UserAssignTaskException("you don't have permission to delete this task because this task not assigned to you");
+            }
+        }
+        taskRepository.deleteById(id);
+    }
+
     private static Date getDate(Task task) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserTable user = (UserTable) authentication.getPrincipal();
