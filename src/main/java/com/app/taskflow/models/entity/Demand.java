@@ -27,7 +27,7 @@ public class Demand {
     @ManyToOne
     private UserTable demandBy;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Task task;
 
     @Enumerated(EnumType.STRING)
