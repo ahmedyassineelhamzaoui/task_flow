@@ -39,7 +39,7 @@ public class Task {
     private TaskStatus status ;
 
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", orphanRemoval = true)
     private List<TaskHasTags> taskTags;
 
     @ManyToOne

@@ -52,7 +52,7 @@ public class JwtServiceImpl implements JwtService {
         authorities.put("authorities",userDetails.getAuthorities().stream().map(role -> role.getAuthority()).collect(Collectors.toList()));
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .addClaims(authorities)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }

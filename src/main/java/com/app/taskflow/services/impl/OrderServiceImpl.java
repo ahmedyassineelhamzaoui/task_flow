@@ -108,9 +108,8 @@ public class OrderServiceImpl  implements OrderService {
         return demandMapper.toUpdateDemandRequest(orderRepository.save(demand));
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 3600000)
     public void verifyManagerResponse() {
-        System.out.println("texsg");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.HOUR, -12);
         Date currentTimeMinus12Hours = cal.getTime();

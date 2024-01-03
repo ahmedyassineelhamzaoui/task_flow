@@ -145,6 +145,7 @@ public class TaskServiceImpl implements TaskService {
             if(!task.getAssignedTo().getId().equals(user.getId())){
                 throw new UserAssignTaskException("you don't have permission to delete this task because this task not assigned to you");
             }
+            taskRepository.deleteById(id);
         }
         taskRepository.deleteById(id);
     }
