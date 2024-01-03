@@ -60,4 +60,13 @@ public class TaskController {
         responseWithoutDetails.setMessage("task status changed successfully");
         return ResponseEntity.ok(responseWithoutDetails);
     }
+
+    @DeleteMapping("task/{id}/delete")
+    public  ResponseEntity<ResponseWithoutDetails> deleteTask(@PathVariable UUID id){
+        taskService.deleteTask(id);
+        responseWithoutDetails.setTimestamp(LocalDateTime.now());
+        responseWithoutDetails.setStatus("200");
+        responseWithoutDetails.setMessage("task deleted successfully");
+        return ResponseEntity.ok(responseWithoutDetails);
+    }
 }
