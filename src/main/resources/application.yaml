@@ -5,19 +5,20 @@ spring:
     username: postgres
     password: yassine
 
-  # Hibernate configuration
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+# Hibernate configuration
+jpa:
+  properties:
     hibernate:
-      ddl-auto: none
-      show-sql: true
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+  hibernate:
+    ddl-auto: none
+    show-sql: true
 
-  # Liquibase configuration
-  liquibase:
-    change-log: classpath:db/changelog-master.xml
+# Liquibase configuration
+liquibase:
+  change-log: classpath:db/changelog/db.changelog-master.yaml
+
 #Token Signing Key
 token:
-      signing:
-        key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
+  signing:
+    key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351

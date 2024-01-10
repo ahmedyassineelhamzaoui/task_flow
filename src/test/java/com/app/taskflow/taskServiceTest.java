@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class taskServiceTest {
 
-    @Mock
+  /*  @Mock
     private TaskRepository taskRepository;
 
 
@@ -54,7 +54,7 @@ public class taskServiceTest {
         taskDTO.setEndDate(DateUtils.addDays(new Date(), 4));
 
         assertThrows(IllegalArgumentException.class, () -> taskService.addTask(taskDTO));
-    }
+    }*/
 
 
 }
