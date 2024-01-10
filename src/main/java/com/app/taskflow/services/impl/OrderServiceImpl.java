@@ -2,10 +2,12 @@ package com.app.taskflow.services.impl;
 
 import com.app.taskflow.common.exception.custom.OperationException;
 import com.app.taskflow.common.exception.custom.OrderException;
+import com.app.taskflow.enums.OperationType;
 import com.app.taskflow.enums.OrderStatus;
 import com.app.taskflow.mapper.DemandMapper;
 import com.app.taskflow.mapper.UserTableMapper;
 import com.app.taskflow.models.dto.DemandDTO;
+import com.app.taskflow.models.dto.UserTableDTO;
 import com.app.taskflow.models.dto.request.UpdateDemandRequest;
 import com.app.taskflow.models.entity.Demand;
 import com.app.taskflow.models.entity.Task;
@@ -15,6 +17,7 @@ import com.app.taskflow.repositories.TaskRepository;
 import com.app.taskflow.repositories.UserRepository;
 import com.app.taskflow.services.facade.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -89,18 +92,20 @@ public class OrderServiceImpl  implements OrderService {
 
         UserTable user = userRepository.findById(updateDemandRequest.getAssignedTo().getId()).orElseThrow(() -> new NoSuchElementException("user that you want to assign to it the task not exist "));
         Task task = taskRepository.findById(updateDemandRequest.getNewTask().getId()).orElseThrow(() -> new NoSuchElementException("task that you want to assign to user not exist"));
+        UserTable updateUserJeton = userRepository.findById(demand.getDemandBy().getId()).orElseThrow(() -> new NoSuchElementException("user that you want to assign to it the task not exist "));
+
         if(task.getAssignedTo() != null){
             throw new OrderException("this task already assign to another user");
         }
-        if(!demand.getStatus().equals("ACCEPTED")){
+        if(!updateDemandRequest.getStatus().equals("ACCEPTED")){
             throw new OrderException("you should update only order with status ACCEPTED because the user will benefit from the credit of modification X 2");
         }
         if(demand.getOperationType().equals("MODIFICATION")){
-            user.setModificationCredit(user.getModificationCredit() - 1);
+            updateUserJeton.setModificationCredit(user.getModificationCredit() - 1);
         } else if (demand.getOperationType().equals("DELETION")){
-            user.setDeletionCredit(user.getDeletionCredit() - 1);
+            updateUserJeton.setDeletionCredit(user.getDeletionCredit() - 1);
         }
-        userRepository.save(user);
+        userRepository.save(updateUserJeton);
         task.setTaskAlreadyTakeJeton(true);
         task.setAssignedTo(user);
         taskRepository.save(task);
@@ -111,18 +116,20 @@ public class OrderServiceImpl  implements OrderService {
     @Scheduled(fixedRate = 3600000)
     public void verifyManagerResponse() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.HOUR, -12);
+        cal.add(Calendar.SECOND, -12);
         Date currentTimeMinus12Hours = cal.getTime();
-
-        List<Demand> orders = orderRepository.findAll().stream()
+        List<DemandDTO> orders = orderRepository.findAll().stream()
                 .filter(order -> order.getCreatedAt().before(currentTimeMinus12Hours) && !order.getStatus().equals( "ACCEPTED"))
+                .map(demandMapper::toDTO)
                 .collect(Collectors.toList());
 
-        for (Demand order : orders) {
-            UserTable user = order.getDemandBy();
+        for (DemandDTO order : orders) {
+            UserTableDTO user = order.getDemandBy();
+            System.out.println(order.getOperationType());
+            System.out.println(order.getOperationType().equals("MODIFICATION"));
             if(order.getOperationType().equals("MODIFICATION")) {
                 user.setModificationCredit(user.getModificationCredit() + 2);
-                userRepository.save(user);
+                userRepository.save(userTableMapper.toEntity(user));
             }
         }
     }

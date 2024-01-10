@@ -50,6 +50,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findAll().stream().map(taskMapper::toDTO).collect(Collectors.toList());
     }
 
+
     @Override
     public void addTask(TaskDTO taskDTO) {
 
@@ -208,7 +209,7 @@ public class TaskServiceImpl implements TaskService {
         }
         return false;
     }
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "* * * * * ?")
     public void updateOverdueTasks() {
         Date now = new Date();
         taskRepository.findAll().stream()

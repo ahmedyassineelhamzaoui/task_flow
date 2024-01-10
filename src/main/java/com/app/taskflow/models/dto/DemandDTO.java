@@ -26,5 +26,5 @@ public class DemandDTO {
 
     private String status = "PENDING";
 
-    private Date createdAt;
+    private Date createdAt = new Date();
 }
