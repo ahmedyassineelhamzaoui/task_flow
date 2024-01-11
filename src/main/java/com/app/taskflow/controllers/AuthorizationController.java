@@ -2,12 +2,15 @@ package com.app.taskflow.controllers;
 
 import com.app.taskflow.common.response.ResponseWithDetails;
 import com.app.taskflow.common.response.ResponseWithoutDetails;
+import com.app.taskflow.models.dto.request.TokenValidationRequest;
 import com.app.taskflow.models.dto.request.UserRolesRequest;
+import com.app.taskflow.services.facade.JwtService;
 import com.app.taskflow.services.facade.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -22,6 +25,9 @@ public class AuthorizationController {
     private final UserService userService;
     private final ResponseWithDetails responseWithDetails;
     private final ResponseWithoutDetails responseWithoutDetails;
+    private final JwtService jwtService;
+
+
     @GetMapping("users/{email}")
     @PostAuthorize("hasAnyAuthority('USER')")
     public ResponseEntity<ResponseWithDetails> getUserByEmail(@PathVariable String email) {
@@ -41,5 +47,6 @@ public class AuthorizationController {
         responseWithoutDetails.setMessage("Role added to user");
         return ResponseEntity.ok(responseWithoutDetails);
     }
+
 
 }

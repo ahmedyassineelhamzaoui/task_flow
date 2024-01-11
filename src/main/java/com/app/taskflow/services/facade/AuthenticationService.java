@@ -10,4 +10,6 @@ public interface AuthenticationService {
     AuthResponse signup(SignUpRequest request);
 
     AuthResponse signin(LoginRequest request);
+
+
 }
