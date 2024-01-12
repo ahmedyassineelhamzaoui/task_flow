@@ -40,7 +40,7 @@ public class Task {
 
 
     @OneToMany(mappedBy = "task", orphanRemoval = true)
-    private List<TaskHasTags> taskTags;
+    private List<TaskHasTags> taskHasTags;
 
     @ManyToOne
     private UserTable createdBy;

@@ -8,6 +8,7 @@ import com.app.taskflow.mapper.TaskMapper;
 import com.app.taskflow.mapper.UserTableMapper;
 import com.app.taskflow.models.dto.TagDTO;
 import com.app.taskflow.models.dto.TaskDTO;
+import com.app.taskflow.models.dto.response.TaskResponse;
 import com.app.taskflow.models.entity.RoleTable;
 import com.app.taskflow.models.entity.Task;
 import com.app.taskflow.models.entity.TaskHasTags;
@@ -46,8 +47,8 @@ public class TaskServiceImpl implements TaskService {
     private final UserTableMapper userTableMapper;
 
     @Override
-    public List<TaskDTO> getAllTasks() {
-        return taskRepository.findAll().stream().map(taskMapper::toDTO).collect(Collectors.toList());
+    public List<TaskResponse> getAllTasks() {
+        return taskRepository.findAll().stream().map(taskMapper::toResponse).collect(Collectors.toList());
     }
 
 

@@ -27,7 +27,7 @@ public class TaskResponse {
     private String status ;
     private Date startDate;
     private Date endDate;
-    private List<TaskHasTagsDTO> taskTagsDTO;
+    private List<TagDTO> tags;
 
     private UserTableDTO createdBy;
 
