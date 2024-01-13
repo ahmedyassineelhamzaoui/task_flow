@@ -53,7 +53,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskResponse> getTasksByName(String name) {
-        return taskRepository.findAllByName(name).stream().map(taskMapper::toResponse).collect(Collectors.toList());
+        return taskRepository.findAllBySearchName(name).stream().map(taskMapper::toResponse).collect(Collectors.toList());
     }
 
     @Override
