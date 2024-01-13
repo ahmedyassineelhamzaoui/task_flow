@@ -14,4 +14,5 @@ public interface TaskService {
     void changeTaskStatus(UUID id, String status);
 
     void deleteTask(UUID id);
+    List<TaskResponse> getTasksByName(String name);
 }

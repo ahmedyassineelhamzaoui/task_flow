@@ -51,6 +51,10 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findAll().stream().map(taskMapper::toResponse).collect(Collectors.toList());
     }
 
+    @Override
+    public List<TaskResponse> getTasksByName(String name) {
+        return taskRepository.findAllByName(name).stream().map(taskMapper::toResponse).collect(Collectors.toList());
+    }
 
     @Override
     public void addTask(TaskDTO taskDTO) {
@@ -151,6 +155,8 @@ public class TaskServiceImpl implements TaskService {
         }
         taskRepository.deleteById(id);
     }
+
+
 
     private static Date getDate(Task task) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
