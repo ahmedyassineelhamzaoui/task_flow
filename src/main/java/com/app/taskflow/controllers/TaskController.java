@@ -5,6 +5,7 @@ import com.app.taskflow.common.response.ResponseWithoutDetails;
 import com.app.taskflow.models.dto.TaskDTO;
 import com.app.taskflow.services.facade.TaskService;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -69,8 +70,8 @@ public class TaskController {
         responseWithoutDetails.setMessage("task deleted successfully");
         return ResponseEntity.ok(responseWithoutDetails);
     }
-    @GetMapping("tasks/{searchName}")
-    public  ResponseEntity<ResponseWithDetails> getTasksByName(@PathVariable String searchName){
+    @GetMapping("tasks")
+    public  ResponseEntity<ResponseWithDetails> getTasksByName(@RequestParam String searchName){
         Map<String,Object> response = new HashMap<>();
         responseWithDetails.setTimestamp(LocalDateTime.now());
         responseWithDetails.setStatus("200");
