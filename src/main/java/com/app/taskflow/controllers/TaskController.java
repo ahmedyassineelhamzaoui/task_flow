@@ -69,4 +69,14 @@ public class TaskController {
         responseWithoutDetails.setMessage("task deleted successfully");
         return ResponseEntity.ok(responseWithoutDetails);
     }
+    @GetMapping("tasks/{searchName}")
+    public  ResponseEntity<ResponseWithDetails> getTasksByName(@PathVariable String searchName){
+        Map<String,Object> response = new HashMap<>();
+        responseWithDetails.setTimestamp(LocalDateTime.now());
+        responseWithDetails.setStatus("200");
+        responseWithDetails.setMessage("tasks retrieved successfully");
+        response.put("tasks",taskService.getTasksByName(searchName));
+        responseWithDetails.setDetails(response);
+        return ResponseEntity.ok(responseWithDetails);
+    }
 }
